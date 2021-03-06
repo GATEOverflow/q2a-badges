@@ -10,4 +10,5 @@
     "update_uri": "https://raw.githubusercontent.com/heliochun/q2a-badges/master/metadata.json",
     "min_q2a": "1.7",
     "min_php": "5.2"
+    "load_order": "after_db_init"
 }
