@@ -137,7 +137,7 @@ foreach ($result as $row) {
     $encodedTitle = htmlspecialchars($decodedTitle, ENT_NOQUOTES);
     $titleAttr = strlen($encodedTitle) > 40 ? 'title="' . $encodedTitle . '"' : '';
 
-    $showHref = '<a href="' . qa_html($fullUrl) . '" target="_blank" ' . $titleAttr . '>' . $safeTitle . '</a>';
+    $showHref = '<a href="' . qa_html($fullUrl) . '" target="_self" ' . $titleAttr . '>' . $safeTitle . '</a>';
     if ($isHiddenPost) {
         $showHref = '<span ' . $titleAttr . '>' . $safeTitle . '</span>';
     }
