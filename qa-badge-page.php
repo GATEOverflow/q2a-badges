@@ -67,7 +67,7 @@ class qa_badge_page {
 		
 		// Table header
 		$qa_content['custom2'] = '
-		<table class="badge-entry-row badge-entry-row-title">
+		<table class="qa-badge-entry-row qa-badge-entry-row-title">
 			<tr>
 				<td>' . qa_lang('badges/badge_name') . '</td>
 				<td>' . qa_lang('badges/badge_description') . '</td>
@@ -113,10 +113,10 @@ class qa_badge_page {
 			$qa_content['custom' . $contentIndex] .=
 				$closePrevGroup .
 				$openBadgeGroup .
-				'<table class="badge-entry-row entry-' . $typeSlug . '">
-					<tr id="badge-anchor-' . $slug . '" class="badge-entry-badge">
-						<td><span class="badge-' . $typeSlug . '" title="' . $typeName . '">' . $name . '</span></td>
-						<td><span class="badge-entry-desc">' . $desc . '</span></td>';
+				'<table class="qa-badge-entry-row entry-' . $typeSlug . '">
+					<tr id="qa-badge-anchor-' . $slug . '" class="qa-badge-entry">
+						<td><span class="qa-badge-' . $typeSlug . '" title="' . $typeName . '">' . $name . '</span></td>
+						<td><span class="qa-badge-entry-desc">' . $desc . '</span></td>';
 
 					// Badge awarded count with clickable user list if available
 					if (isset($badgeAwardCounts[$slug])) {
@@ -125,12 +125,12 @@ class qa_badge_page {
 						$fetchUrl = qa_path('qa-plugin/' . basename(__DIR__));
 						
 						// If showing source is not enabled
-						$dataAttributes = 'class="badge-count"';
+						$dataAttributes = 'class="qa-badge-count"';
 						
 						if (qa_opt('badge_show_source_users') && isset($badgeAwardCounts[$slug])) {
 							// data-popup-title="'.qa_lang('badges/badge_widget_title').'"
 							$dataAttributes = '
-								class="badge-count-link noSelect" 
+								class="qa-badge-count-link noSelect" 
 								data-slug="'.qa_html($slug).'" 
 								data-type-slug="'.qa_html($typeSlug).'" 
 								data-name="'.qa_html($name).'" 
@@ -147,7 +147,7 @@ class qa_badge_page {
 							</td>';
 					} else {
 						$qa_content['custom' . $contentIndex] .= 
-							'<td><span class="badge-count" title="0 '.qa_lang('badges/awarded').'" >0</span></td>';
+							'<td><span class="qa-badge-count" title="0 '.qa_lang('badges/awarded').'" >0</span></td>';
 					}
 
 					$qa_content['custom' . $contentIndex] .= '</tr>';

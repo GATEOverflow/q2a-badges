@@ -197,11 +197,12 @@
 		'awarded_total'=>'awarded to the community.',
 		'badges_total'=>'total badges',
 		
-		'badge_notify'=>'Congratulations!  You\'ve earned a badge ',
+		'badge_notify'=>'🎉 Congrats! You\'ve earned a new badge: ',
 		'badge_notify_multi_plural'=>'and # other badges!',
 		'badge_notify_multi_singular'=>'and 1 other badge!',
-		'badge_notify_profile_pre'=>'Check out ',
-		'badge_notify_profile'=>'your profile',
+		'badge_notify_view_it'=>'View it on ', 		 // Mobile - Can be a longer phrase
+		'badge_notify_your_profile'=>'your profile', // Mobile - Can be a longer phrase
+		'badge_notify_see_more'=>'View profile', 	 // Desktop - Ideally shorter phrase
 		
 		'badge_trigger_notify'=>'Test Notify',
 		'badge_trigger_notify_desc'=>'show a sample notification box',

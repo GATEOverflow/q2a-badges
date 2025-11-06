@@ -73,7 +73,7 @@ class qa_badge_widget {
 			}
 			
 			// Output the badge entry
-			$themeobject->output('<div class="badge-widget-entry">', $badgeHTML, '</div>');
+			$themeobject->output('<div class="qa-badge-widget-entry">', $badgeHTML, '</div>');
 		}
 
 		if (!$first) {
@@ -109,7 +109,7 @@ class qa_badge_widget {
 	}
 	
 	/**
-	 * Retrieves recent badge-awarded events from the event log.
+	 * Retrieves recent qa-badge-awarded events from the event log.
 	 *
 	 * Fetches rows from the ^eventlog table where the event is 'badge_awarded',
 	 * joined with the users table to ensure the user is valid.
@@ -135,7 +135,7 @@ class qa_badge_widget {
 	 * Parses a tab-delimited badge parameter string into an associative array.
 	 *
 	 * Expected input format: "key1=value1\tkey2=value2\t..."
-	 * Used to extract badge-related data (e.g., badge_slug) from the event 'params' string.
+	 * Used to extract qa-badge-related data (e.g., badge_slug) from the event 'params' string.
 	 *
 	 * @param string|null $paramsString The raw parameter string from the event log.
 	 * @return array Associative array of parameter key-value pairs.
@@ -221,15 +221,15 @@ class qa_badge_widget {
 		$profileUrl = qa_path_html('user/' . $handle);
 		
 		$siteUrl = qa_opt('site_url');
-		$badgeUrl = $siteUrl . 'badges#badge-anchor-' . $badgeSlug;
+		$badgeUrl = $siteUrl . 'badges#qa-badge-anchor-' . $badgeSlug;
 
 		return <<<HTML
-		<div class="badge-awarded">
-			<div class="badge-awarded-header">
-				<div class="badge-awarded-avatar">
+		<div class="qa-badge-awarded">
+			<div class="qa-badge-awarded-header">
+				<div class="qa-badge-awarded-avatar">
 					{$avatarHtml}
 				</div>
-				<div class="badge-awarded-info">
+				<div class="qa-badge-awarded-info">
 					<span class="wibawho-wrapper">
 						<a class="wibawho" href="{$profileUrl}">{$handle}</a>
 					</span>
@@ -239,13 +239,13 @@ class qa_badge_widget {
 				</div>
 				<div class="clear" style="clear:both;"></div>
 			</div>
-			<div class="badge-awarded-footer">
+			<div class="qa-badge-awarded-footer">
 				<span class="wibawhat-time">
 					<span class="wibawhat-timestamp" title="{$awardedTime['full_date']}">{$awardedTime['time_ago']}</span>
 				</span>
 				<span class="wibabadge">
 					<a href="{$badgeUrl}" title="{$badgeName} - {$badgeDesc} ({$badgeType})">
-						<span class="badge-{$badgeType}">{$badgeName}</span>
+						<span class="qa-badge-{$badgeType}">{$badgeName}</span>
 					</a>
 				</span>
 				<div class="clear" style="clear:both;"></div>

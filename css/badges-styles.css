@@ -24,7 +24,7 @@
     overflow: hidden;
 }
 
-.badge-bronze, .badge-silver, .badge-gold, .badge-blank {
+.qa-badge, .qa-badge-bronze, .qa-badge-silver, .qa-badge-gold {
     display: inline-block;
     background-color: #424242;
     color: #fff;
@@ -44,19 +44,10 @@
                 0 1px 5px 0 rgba(0, 0, 0, 0.12),
                 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
-.badge-blank {
+.qa-badge-notify .qa-badge {
     margin-bottom: 0;
-    /*
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 
-        0 1px 5px 0 rgba(0, 0, 0, 0.22), 
-        0 3px 1px -2px rgba(0, 0, 0, 0.3);
-    */
-    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.24), 
-        0 2px 2px 0 rgba(0, 0, 0, 0.24), 
-        0 1px 5px 0 rgba(0, 0, 0, 0.22), 
-        0 3px 1px -2px rgba(0, 0, 0, 0.3);
 }
-.badge-bronze:before, .badge-silver:before, .badge-gold:before, .badge-blank:before {
+.qa-badge-bronze:before, .qa-badge-silver:before, .qa-badge-gold:before, .qa-badge:before {
     content: "";
     height: 8px;
     width: 8px;
@@ -66,21 +57,21 @@
     /* vertical-align: middle; */
 }
 
-.badge-bronze:before {
+.qa-badge-bronze:before {
     background-color: #b3934e;
 }
-.badge-silver:before {
+.qa-badge-silver:before {
     background-color: #ababab;
 }
-.badge-gold:before {
+.qa-badge-gold:before {
     background-color: #FFCC01;
 }
-.badge-blank:before {
+.qa-badge:before {
     background-color: #3ea6ff;
 }
 
 /* single dot */
-.badge-bronze-count:before, .badge-silver-count:before, .badge-gold-count:before {
+.qa-badge-bronze-count:before, .qa-badge-silver-count:before, .qa-badge-gold-count:before {
     content: "";
     display: inline-block;
     width: 7px;
@@ -89,28 +80,28 @@
     border-radius: 10px;
     margin: 1px;
 }
-.badge-bronze-count:before {
+.qa-badge-bronze-count:before {
     background-color: #b3934e;
 }
-.badge-silver-count:before {
+.qa-badge-silver-count:before {
     background-color: #ababab;
 }
-.badge-gold-count:before {
+.qa-badge-gold-count:before {
     background-color: #FFCC01;
 }
 
-.badge-bronze br, .badge-silver br, .badge-gold br {
+.qa-badge-bronze br, .qa-badge-silver br, .qa-badge-gold br {
     content: "";
     display: inline-block;
     height: 0;
     width: 5px;
 }
 
-.badge-count {
+.qa-badge-count {
     color: #9E9E9E;
     padding: 5px 6px;
 }
-.badge-count-link {
+.qa-badge-count-link {
     cursor: pointer;
     color: #039BE5;
 }
@@ -121,83 +112,98 @@
     top: initial; /* fix for older versions / plugin setting top attributes */
     left: 25px;
     bottom: 25px;
-    max-width: 520px;
+    max-width: 90%;
     z-index: 99999999;
 }
-.badge-notify {
+.qa-badge-notify {
     display: flex;
-    padding: 1rem 0rem 1rem 2rem;
     text-align: left;
-    background-color: #424242;
+    background-color: #0f0f0f;
     font-family: inherit;
+	font-size: 14px;
     font-weight: 400;
     color: #fff;
     box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14),
                 0 3px 14px 2px rgba(0,0,0,0.12),
                 0 5px 5px -3px rgba(0,0,0,0.2);
+	border-radius: 8px;
 }
-.badge-notify a {
+.qa-badge-notify a {
     color: #90CAF9;
 }
 
-.badge-profile-check {
-    display: block;
+.qa-badge-notify-text {
+    padding: .8rem 0rem .8rem 1.5rem;
 }
 
-.notify-close {
+.qa-badge-check-profile {
+    display: none;
+}
+
+.qa-badge-notify-interact {
+	margin-inline-start: .5rem;
+	display: flex;
+}
+
+.notify-link {
+    font-weight: 500;
+}
+
+.qa-badge-notify-button {
+    min-width: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: nowrap;
-    width: 50px;
-    cursor: pointer;
+	padding: 0 .5rem;
+	cursor: pointer;
 }
 
-.badge-user-tables {
+.qa-badge-notify-button:hover {
+    background-color: rgb(255 255 255 / 10%);
+}
+
+.qa-badge-user-tables {
     width: 100%;
 }
-.badge-user-table {
+.qa-badge-user-table {
     vertical-align: top;
     padding: 0 5px;
     width: 33.3%;
 }
-.badge-user-table table {
+.qa-badge-user-table table {
     width: 100%;
 }
-.badge-user-table .qa-form-wide-label {
+.qa-badge-user-table .qa-form-wide-label {
     padding: 0;
 }
-.badge-title {
-    background-color: #eee;
-    padding: 10px;
-}
 
 
-.badge-bronze-medal, .badge-silver-medal, .badge-gold-medal {
+.qa-badge-bronze-medal, .qa-badge-silver-medal, .qa-badge-gold-medal {
     font-size: 20px;
 }
 
-.badge-entry-row-title {
+.qa-badge-entry-row-title {
     font-weight: 500;
 }
-.badge-entry-row-title td {
+.qa-badge-entry-row-title td {
     padding: 0.5rem 0;
 }
 
-.badge-entry, .badge-entry-row {
+.qa-badge-entry, .qa-badge-entry-row {
     width: 100%;
 }
 
-.badge-entry-badge td:first-of-type {
+.qa-badge-entry td:first-of-type {
     width: 25%;
     padding: 0;
 }
-.badge-entry-row-title td:nth-child(2),
-.badge-entry-badge td:nth-child(2) {
+.qa-badge-entry-row-title td:nth-child(2),
+.qa-badge-entry td:nth-child(2) {
     width: 60%;
 }
-.badge-entry-row-title td:nth-child(3),
-.badge-entry-badge td:nth-child(3) {
+.qa-badge-entry-row-title td:nth-child(3),
+.qa-badge-entry td:nth-child(3) {
     width: 15%;
     text-align: right;
 }
@@ -221,19 +227,19 @@
     }
 }
 
-.badge-divider {
+.qa-badge-divider {
     width: 100%;
     height: 1px;
     background-color: #E0E0E0;
     margin: 0.6rem 0;
 }
 
-.badge-entry-desc {
+.qa-badge-entry-desc {
     font-size: 14px;
     line-height: normal;
 }
 
-.badge-container-sources {
+.qa-badge-container-sources {
     position: fixed;
     top: 0;
     left: 0;
@@ -243,10 +249,10 @@
     display: none;
     text-align: initial;
 }
-.q2a-show-badge-source {
+.qa-badge-show-source {
     display: block !important;
 }
-.badge-source-container {
+.qa-badge-source-container {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -265,18 +271,18 @@
     width: 85%;
     max-width: 375px;
 }
-.q2a-show-badge-source .badge-source-container {
+.qa-badge-show-source .qa-badge-source-container {
     opacity: 1;
     pointer-events: auto;
     transform: scale(1) translateX(-50%) translateY(-50%);
     backface-visibility: hidden;
 }
-.badge-source-header {
+.qa-badge-source-header {
     padding-bottom: .5rem;
     box-shadow: 0px 5px 5px -4px rgb(0 0 0 / 10%);
 }
-.badge-sources-wrapper {
-    display: flex;
+.qa-badge-sources-wrapper {
+    /* display: flex; */
     flex-direction: column;
     height: 52vh;
     margin: 0;
@@ -285,13 +291,13 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
-.badge-list-item {
+.qa-badge-list-item {
     list-style: none;
     margin: 0;
     padding: .6rem 0;
 }
 /*
-.badge-list-item a:before {
+.qa-badge-list-item a:before {
     content: "";
     display: inline-block;
     width: 18px;
@@ -305,12 +311,12 @@
 }
 */
 
-.badge-list-item .flex {
+.qa-badge-list-item .flex {
     align-items: center;
     flex-shrink: 0;
 }
 
-.badge-source-info {
+.qa-badge-source-info {
     flex-grow: 1;
 }
 
@@ -318,13 +324,13 @@
     font-weight: 500;
 }
 
-.badge-source-title-description {
+.qa-badge-source-title-description {
     display: block;
     font-size: small;
     font-weight: normal;
 }
 
-.badge-close-btn {
+.qa-badge-close-btn {
     display: inline-block;
     background-color: rgb(0 0 0 / 10%);
     width: 30px;
@@ -339,19 +345,19 @@
     border-radius: 3px;
     transition: background-color .2s;
 }
-.badge-close-btn:hover {
+.qa-badge-close-btn:hover {
     background-color: rgb(0 0 0 / 15%);
 }
 
-.badge-close-btn svg {
+.qa-badge-close-btn svg {
     vertical-align: middle;
 }
 
-.badge-list-item .badge-awarded-avatar, .badge-name-container {
+.qa-badge-list-item .qa-badge-awarded-avatar, .qa-badge-name-container {
     display: inline-flex;
 }
 
-.bliu-link {
+.qbli-link {
     max-width: max-content;
     white-space: nowrap;
     overflow: hidden;
@@ -360,7 +366,7 @@
     font-weight: 600;
 }
 
-.bliu-avatar {
+.qbli-avatar {
     width: 44px;
     height: 44px;
     position: relative;
@@ -369,7 +375,7 @@
     border-radius: 50%;
 }
 
-.bliu-avatar img {
+.qbli-avatar img {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -384,7 +390,7 @@
     max-width: initial;
 }
 
-.bliu-container {
+.qbli-container {
     flex: 1 1 50%;
     min-width: 0;
     padding: 0 .8rem;
@@ -394,11 +400,11 @@
     display: grid;
 }
 
-.bliu-more {
+.qbli-more {
     padding-inline-end: .4rem;
 }
 
-.bliu-button {
+.qbli-button {
     background-color: #e7eaee;
     color: #000 !important;
     height: 32px;
@@ -412,24 +418,24 @@
     transition: background-color .2s;
 }
 
-.bliu-button:hover {
+.qbli-button:hover {
     background-color: rgb(0 0 0 / 15%);
 }
 
 /* Better Performance 
 Don't force repaint for all 63 of badges available (if they were all open at the same time)
 */
-.badge-loading-spinner {
+.qa-badge-loading-spinner {
     position: relative;
     display: none;
 }
 
 /* Only animate the current open Popup */
-.q2a-show-badge-source .badge-loading-spinner {
+.qa-badge-show-source .qa-badge-loading-spinner {
     display: block;
 }
 
-.badge-spinner {
+.qa-badge-spinner {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -439,7 +445,7 @@ Don't force repaint for all 63 of badges available (if they were all open at the
     transition: opacity .25s;
 }
 
-.active .badge-spinner {
+.active .qa-badge-spinner {
     opacity: .8;
     pointer-events: auto;
 }
@@ -478,7 +484,7 @@ Don't force repaint for all 63 of badges available (if they were all open at the
 }
 
 /*
-.badge-spinner {
+.qa-badge-spinner {
     width: 24px;
     height: 24px;
     border: 3px solid #ccc;
@@ -515,12 +521,12 @@ Don't force repaint for all 63 of badges available (if they were all open at the
     height: 100%;
     fill: inherit;
 }
-.close-badge-source-wrapper {
+.close-qa-badge-source-wrapper {
     text-align: end;
     padding-top: 8px;
 }
 
-.badge-close-source {
+.qa-badge-close-source {
     position: fixed;
     top: 0;
     left: 0;
@@ -533,7 +539,7 @@ Don't force repaint for all 63 of badges available (if they were all open at the
     width: 100%;
     overflow: hidden;
 }
-.badge-source {
+.qa-badge-source {
     white-space: nowrap;
     overflow: hidden;
     display: flex;
@@ -541,16 +547,16 @@ Don't force repaint for all 63 of badges available (if they were all open at the
     flex-shrink: 0;
     font-size: .875rem;
 }
-.badge-source:not(:last-child) {
+.qa-badge-source:not(:last-child) {
     border-bottom: 1px solid #e0e0e0;
 }
-.badge-source:before {
+.qa-badge-source:before {
     content: "\25B6"; /* play button ► */
     margin: 3px 0;
     margin-inline-end: 6px;
 }
 
-.badge-source a {
+.qa-badge-source a {
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -573,38 +579,38 @@ Don't force repaint for all 63 of badges available (if they were all open at the
     overflow: hidden;
 }
 
-.badge-widget-entry {
+.qa-badge-widget-entry {
     font-size: 14px;
     margin-bottom: 6px;
 }
-.badge-medals-widget {
+.qa-badge-medals-widget {
     white-space: nowrap;
     display: inline-block;
 }
 
 
 
-.badge-awarded {
+.qa-badge-awarded {
     background-color: rgb(0 0 0 / 10%);
     padding: 1rem;
     margin: 0.8rem 0;
     border-radius: 14px;
 }
-.badge-awarded-header {
+.qa-badge-awarded-header {
     margin-bottom: 0.5rem;
 }
-.badge-awarded-avatar {
+.qa-badge-awarded-avatar {
     display: inline-block;
     width: 35px;
     height: 35px;
     overflow: hidden;
 }
-.badge-awarded-avatar img {
+.qa-badge-awarded-avatar img {
     width: 35px;
     height: 35px;
     border-radius: 30px;
 }
-.badge-awarded-info {
+.qa-badge-awarded-info {
     display: inline-grid;
     vertical-align: top;
     padding: 0 0.8rem;
@@ -626,14 +632,14 @@ Don't force repaint for all 63 of badges available (if they were all open at the
     line-height: .75rem;
 }
 
-.badge-awarded-footer {
+.qa-badge-awarded-footer {
     display: flex;
     flex-direction: row;
     background-color: rgb(0 0 0 / 10%);
     padding: 4px 5px;
     border-radius: 6px;
 }
-.badge-awarded-footer .wibawhat-time {
+.qa-badge-awarded-footer .wibawhat-time {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -650,7 +656,7 @@ Don't force repaint for all 63 of badges available (if they were all open at the
     text-overflow: ellipsis;
 }
 
-.badge-awarded-footer .wibabadge {
+.qa-badge-awarded-footer .wibabadge {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -676,23 +682,23 @@ Don't force repaint for all 63 of badges available (if they were all open at the
 
 
 @media (max-width: 630px){
-    .badge-user-table {
+    .qa-badge-user-table {
         width: 100%;
         display: block;
         font-size: 13px;
         padding: 0;
         margin-top: 5px;
     }
-    .badge-title {
+    .qa-badge-title {
         font-weight: 400;
         background-color: #f5f5f5;
     }
     
-    .badge-entry-row-title td:nth-child(3), .badge-entry-badge td:nth-child(3) {
+    .qa-badge-entry-row-title td:nth-child(3), .qa-badge-entry td:nth-child(3) {
         vertical-align: top;
         margin-top: -1rem;
     }
-    .badge-count-link, .badge-count {
+    .qa-badge-count-link, .qa-badge-count {
         font-size: 1rem;
         padding: 1rem !important;
         margin-inline-end: -1rem;
@@ -702,20 +708,20 @@ Don't force repaint for all 63 of badges available (if they were all open at the
     .qa-part-custom2 {
         padding: 10px;
     }
-    .badge-entry-badge td:first-of-type {
+    .qa-badge-entry td:first-of-type {
         width: 45%;
     }
-    .badge-entry-desc {
+    .qa-badge-entry-desc {
         font-size: 13px;
         padding: 6px 0;
         display: inline-block;
     }
     
-    .bliu-container {
+    .qbli-container {
         flex: 1 1 35%;
     }
     
-    .bliu-button {
+    .qbli-button {
         height: 28px;
         line-height: 28px;
         padding: 0 .6rem;
@@ -730,8 +736,15 @@ Don't force repaint for all 63 of badges available (if they were all open at the
         bottom: 8px;
     }
     
-    .badge-notify {
-        padding: 1rem 0 1rem 1rem;
+	 .qa-badge-notify-text {
+        padding: .8rem 0 .8rem .8rem;
     }
+	.qa-badge-check-profile {
+		display: block;
+		margin-top: .5rem;
+	}
+	.qa-badge-notify-interact .notify-link {
+		display: none;
+	}
     
 }

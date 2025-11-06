@@ -3,11 +3,11 @@
 document.addEventListener('DOMContentLoaded', () => {
 	
 	/**
-	 * UI helper: Handle clicks on any .badge-count-link
+	 * UI helper: Handle clicks on any .qa-badge-count-link
 	 * If Admin option is to not show sources, this class is not rendered in DOM
 	 */
 	document.body.addEventListener('click', (e) => {
-		if (e.target && e.target.matches('.badge-count-link')) {
+		if (e.target && e.target.matches('.qa-badge-count-link')) {
 			const options = {
 				badgeSlug: e.target.dataset.slug,
 				type: e.target.dataset.typeSlug,
@@ -43,15 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		fetchUrlBase,
 		userId = 0
 	}) => {
-		let container = document.getElementById('badge-users-' + badgeSlug);
-		const badgeLink = document.querySelector(`.badge-count-link[data-slug="${badgeSlug}"]`);
+		let container = document.getElementById('qa-badge-users-' + badgeSlug);
+		const badgeLink = document.querySelector(`.qa-badge-count-link[data-slug="${badgeSlug}"]`);
 		if (!badgeLink) return;
 
 		if (!container) {
-			// Dynamically create the container and insert it after the .badge-count-link
+			// Dynamically create the container and insert it after the .qa-badge-count-link
 			container = document.createElement('div');
-			container.id = 'badge-users-' + badgeSlug;
-			container.className = 'badge-container-sources';
+			container.id = 'qa-badge-users-' + badgeSlug;
+			container.className = 'qa-badge-container-sources';
 			
 			// If already cached, use it instead of rebuilding
 			if (badgeUserContentCache.has(badgeSlug)) {
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 				container.dataset.loaded = 'true'; // mark as loaded
 				loadMoreBadgeEntries(badgeSlug); // Ensure user list is triggered
-				container.classList.add('q2a-show-badge-source');
+				container.classList.add('qa-badge-show-source');
 				return;
 			}
 			
@@ -79,22 +79,22 @@ document.addEventListener('DOMContentLoaded', () => {
 			const popupTitleCheck = popupTitle != null ? `<span class="bsh-title">${popupTitle}:</span>` : '';
 			
 			const htmlContent = `
-				<div class="badge-source-container">
-					<div class="badge-source-header flex flex-row">
-						<div class="badge-source-info flex flex-column">
+				<div class="qa-badge-source-container">
+					<div class="qa-badge-source-header flex flex-row">
+						<div class="qa-badge-source-info flex flex-column">
 							<div class="bsh-container">
 								${popupTitleCheck}
-								<span class="badge-${type}">${name}</span>
-								<span class="badge-source-title-description">${desc}</span>
+								<span class="qa-badge-${type}">${name}</span>
+								<span class="qa-badge-source-title-description">${desc}</span>
 							</div>
 						</div>
 						<div class="bsh-container">
-							<div class="badge-close-btn flex noSelect">✕</div>
+							<div class="qa-badge-close-btn flex noSelect">✕</div>
 						</div>
 					</div>
-					<ul class="badge-sources-wrapper" data-slug="${badgeSlug}" data-offset="0" data-fetchurl="${fetchUrlBase}" data-userid="${userId}"></ul>
-					<div class="badge-loading-spinner">
-						<span class="badge-spinner">
+					<ul class="qa-badge-sources-wrapper" data-slug="${badgeSlug}" data-offset="0" data-fetchurl="${fetchUrlBase}" data-userid="${userId}"></ul>
+					<div class="qa-badge-loading-spinner">
+						<span class="qa-badge-spinner">
 							<div class="bubble-loader">
 								<svg viewBox="0 0 120 30" width="60" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 									<circle class="dot" cx="15" cy="15" r="6" />
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 						</span>
 					</div>
 				</div>
-				<div class="badge-close-source noSelect"></div>
+				<div class="qa-badge-close-source noSelect"></div>
 			`;
 
 			container.innerHTML = htmlContent;
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			loadOnScroll(container, badgeSlug);
 		}
 		
-		container.classList.add('q2a-show-badge-source');
+		container.classList.add('qa-badge-show-source');
 	};
 	
 	/**
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	 * @param {string} badgeSlug - The unique badge identifier.
 	 */
 	const loadMoreBadgeEntries = badgeSlug => {
-		const container = document.querySelector(`#badge-users-${badgeSlug} .badge-sources-wrapper`);
+		const container = document.querySelector(`#qa-badge-users-${badgeSlug} .qa-badge-sources-wrapper`);
 		if (!container) return;
 
 		if (container.dataset.loading === 'true' || container.dataset.done === 'true') return;
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					container.dataset.done = 'true';
 
 					// Cache the *fully loaded* badge content
-					const wrapper = container.closest('.badge-container-sources');
+					const wrapper = container.closest('.qa-badge-container-sources');
 					if (wrapper) {
 						badgeUserContentCache.set(badgeSlug, wrapper.outerHTML);
 					}
@@ -191,9 +191,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				// After content is loaded, check if scrollable and cache if not
 				// Othewise it will keep calling short lists
 				setTimeout(() => {
-					const wrapper = document.querySelector(`.badge-container-sources`);
+					const wrapper = document.querySelector(`.qa-badge-container-sources`);
 					if (wrapper) {
-						const scrollContainer = wrapper.querySelector('.badge-sources-wrapper');
+						const scrollContainer = wrapper.querySelector('.qa-badge-sources-wrapper');
 						
 						// Ensure scrollContainer exists and check if it's scrollable
 						if (scrollContainer && isNotScrollable(scrollContainer)) {
@@ -222,10 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	const showUserErrorMessage = (container, message) => {
 		if (!container) return;
 		
-		let errorElem = container.querySelector('.badge-error-message');
+		let errorElem = container.querySelector('.qa-badge-error-message');
 		if (!errorElem) {
 			errorElem = document.createElement('div');
-			errorElem.className = 'badge-error-message';
+			errorElem.className = 'qa-badge-error-message';
 			container.appendChild(errorElem);
 		}
 		errorElem.textContent = message;
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	// UI helper: Load more Badges, on scroll
 	const loadOnScroll = (container, badgeSlug) => {
-		const scrollContainer = container.querySelector('.badge-sources-wrapper');
+		const scrollContainer = container.querySelector('.qa-badge-sources-wrapper');
 		if (scrollContainer) {
 			scrollContainer.addEventListener('scroll', () => {
 				if (scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight - 20) {
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	// UI helper: show/hide loading spinner
 	const showLoadingSpinner = show => {
-		document.querySelectorAll('.badge-loading-spinner').forEach(spinner => {
+		document.querySelectorAll('.qa-badge-loading-spinner').forEach(spinner => {
 			spinner.classList.toggle('active', show);
 		});
 	};
@@ -262,10 +262,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	// UI helper: Badge Sources cleanup
 	document.body.addEventListener('click', event => {
 		if (
-			event.target.matches('.badge-close-btn') ||
-			event.target.matches('.badge-close-source')
+			event.target.matches('.qa-badge-close-btn') ||
+			event.target.matches('.qa-badge-close-source')
 		) {
-			document.querySelectorAll('.badge-container-sources').forEach(container => container.remove());
+			document.querySelectorAll('.qa-badge-container-sources').forEach(container => container.remove());
 			document.body.classList.remove('no-scroll');
 		}
 	});

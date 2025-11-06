@@ -3,7 +3,7 @@
 class qa_html_theme_layer extends qa_html_theme_base {
 
 // Patch Version
-private $patchNumber = '?v=108';
+private $patchNumber = '?v=115';
 
 // init before start
 public $badge_notice;
@@ -197,7 +197,7 @@ public $badge_notice;
 	function post_meta_who($post, $class)
 	{
 		if (empty($post['who']['level']) && @$post['who'] && @$post['who']['data'] && qa_opt('badge_active') && (bool)qa_opt('badge_admin_user_widget') && ($class != 'qa-q-item' || qa_opt('badge_admin_user_widget_q_item')) ) {
-			$post['who']['suffix'] = (@$post['who']['suffix']).' <span class="badge-medals-widget">'.qa_lang('badges/badge_anonymous_user').'</span>'; // No data
+			$post['who']['suffix'] = (@$post['who']['suffix']).' <span class="qa-badge-medals-widget">'.qa_lang('badges/badge_anonymous_user').'</span>'; // No data
 		} else if (@$post['who'] && @$post['who']['data'] && qa_opt('badge_active') && (bool)qa_opt('badge_admin_user_widget') && ($class != 'qa-q-item' || qa_opt('badge_admin_user_widget_q_item')) ) {
 			$handle = preg_replace('/ *<[^>]+> */', '',$post['who']['data']);
 			$post['who']['suffix'] = (@$post['who']['suffix']).' '.qa_badge_plugin_user_widget($handle);
@@ -279,65 +279,145 @@ public $badge_notice;
 		}
 	}
 	
-	// badge popup notification
-	function badge_notify() {
-		$userid = qa_get_logged_in_userid();
-		
-		qa_db_query_sub(
-			'CREATE TABLE IF NOT EXISTS ^userbadges ('.
-				'awarded_at DATETIME NOT NULL,'.
-				'user_id INT(11) NOT NULL,'.
-				'notify TINYINT DEFAULT 0 NOT NULL,'.
-				'object_id INT(10),'.
-				'badge_slug VARCHAR (64) CHARACTER SET ascii DEFAULT \'\','.
-				'id INT(11) NOT NULL AUTO_INCREMENT,'.
-				'PRIMARY KEY (id)'.
-			') ENGINE=MyISAM DEFAULT CHARSET=utf8'
-		);			
-		
-		$result = qa_db_read_all_values(
-			qa_db_query_sub(
-				'SELECT badge_slug FROM ^userbadges WHERE user_id=# AND notify>=1',
-				$userid
-			)
-		);
-		if(count($result) > 0) {
-			$notice = '<div class="notify-container">';
-			
-				if(count($result) == 1) {
-					$slug = $result[0];
-					$badge_name=qa_lang('badges/'.$slug);
-					if(!qa_opt('badge_'.$slug.'_name')) qa_opt('badge_'.$slug.'_name',$badge_name);
-					$name = qa_opt('badge_'.$slug.'_name');
-					
-					$notice .= '<div class="badge-notify notify"><div class="badge-notify-text">'.qa_lang('badges/badge_notify')."'".$name.'\'<span class="badge-profile-check">'.qa_lang('badges/badge_notify_profile_pre').'<a href="'.qa_path_html((QA_FINAL_EXTERNAL_USERS?qa_path_to_root():'').'user/'.qa_get_logged_in_handle(),array('tab'=>'badges'),qa_path('')).'">'.qa_lang('badges/badge_notify_profile').'</a></span></div><div class="notify-close" onclick="this.closest(\'.badge-notify\').style.display = \'none\';">&#x2715;</div></div>';
-				}
-				else {
-					$number_text = count($result)>2?str_replace('#', count($result)-1, qa_lang('badges/badge_notify_multi_plural')):qa_lang('badges/badge_notify_multi_singular');
-					$slug = $result[0];
-					$badge_name=qa_lang('badges/'.$slug);
-					if(!qa_opt('badge_'.$slug.'_name')) qa_opt('badge_'.$slug.'_name',$badge_name);
-					$name = qa_opt('badge_'.$slug.'_name');
-					$notice .= '<div class="badge-notify notify"><div class="badge-notify-text">'.qa_lang('badges/badge_notify')."'".$name.'\'&nbsp;'.$number_text.'<span class="badge-profile-check">'.qa_lang('badges/badge_notify_profile_pre').'<a href="'.qa_path_html('user/'.qa_get_logged_in_handle(),array('tab'=>'badges'),qa_path('')).'">'.qa_lang('badges/badge_notify_profile').'</a></span></div><div class="notify-close" onclick="this.closest(\'.badge-notify\').style.display = \'none\';">&#x2715;</div></div>';
-				}
+	/**
+     * Ensure userbadges table exists
+     */
+    private function ensure_userbadges_table() {
+        qa_db_query_sub('
+            CREATE TABLE IF NOT EXISTS ^userbadges (
+                id INT(11) NOT NULL AUTO_INCREMENT,
+                user_id INT(11) NOT NULL,
+                object_id INT(10),
+                badge_slug VARCHAR(64) CHARACTER SET ascii DEFAULT "",
+                awarded_at DATETIME NOT NULL,
+                notify TINYINT(1) DEFAULT 0 NOT NULL,
+                PRIMARY KEY (id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+        ');
+    }
 
-			$notice .= '</div>';
-			
-			// remove notification flag
-			qa_db_query_sub(
-				'UPDATE ^userbadges SET notify=0 WHERE user_id=# AND notify>=1',
-				$userid
-			);
-			$this->badge_notice = $notice;
-		}
-	}
+    /**
+     * Get badges that have notify flag
+     */
+    private function get_badges_to_notify($userId) {
+        return qa_db_read_all_values(
+            qa_db_query_sub(
+                'SELECT badge_slug FROM ^userbadges WHERE user_id = # AND notify >= 1',
+                $userId
+            )
+        );
+    }
 
-// etc
-	
-	function trigger_notify($message) {
-		$notice = '<div class="notify-container"><div class="badge-notify notify"><div class="badge-notify-text">'.qa_lang('badges/badge_notify').'<span class="badge-blank">'.$message.'</span>!<span class="badge-profile-check">'.qa_lang('badges/badge_notify_profile_pre').'<a href="'.qa_path('').'user/'.qa_get_logged_in_handle().'">'.qa_lang('badges/badge_notify_profile').'</a></span></div><div class="notify-close" onclick="this.closest(\'.badge-notify\').style.display = \'none\';">&#x2715;</div></div></div>';
-		$this->output($notice);
-	}
+    /**
+     * Clear notification flags
+     */
+    private function clear_badge_notifications($userId) {
+        qa_db_query_sub(
+            'UPDATE ^userbadges SET notify = 0 WHERE user_id = # AND notify >= 1',
+            $userId
+        );
+    }
+
+    /**
+     * Generate the user's badge tab URL
+     */
+    private function get_user_badges_url() {
+        return qa_path_html(
+            (QA_FINAL_EXTERNAL_USERS ? qa_path_to_root() : '') .
+            'user/' . qa_get_logged_in_handle(),
+            ['tab' => 'badges']
+        );
+    }
+
+    /**
+     * Render badge notification HTML
+     */
+    private function render_badge_notification_html($badgeText, $profileUrl) {
+        $preText  = qa_html(qa_lang('badges/badge_notify_view_it'));
+        $linkText = qa_html(qa_lang('badges/badge_notify_your_profile'));
+		$linkViewMore = qa_html(qa_lang('badges/badge_notify_see_more'));
+
+        return '
+        <div class="notify-container">
+            <div class="qa-badge-notify notify">
+                <div class="qa-badge-notify-text">
+                    ' . $badgeText . '
+					<span class="qa-badge-check-profile">
+                        ' . $preText . ' <a class="notify-link" href="' . $profileUrl . '">' . $linkText . '</a>.
+                    </span>
+                </div>
+				<span class="qa-badge-notify-interact">
+					<a class="qa-badge-notify-button notify-link" href="' . $profileUrl . '">' . $linkViewMore . '</a>
+					<div class="qa-badge-notify-button notify-close" onclick="this.closest(\'.qa-badge-notify\').style.display=\'none\';" aria-label="Close notification">&#x2715;</div>
+				</span>
+            </div>
+        </div>';
+    }
+
+    /**
+     * Show badge popup notification
+     */
+    public function badge_notify() {
+        $userId = qa_get_logged_in_userid();
+        if (!$userId) {
+            return;
+        }
+
+        $this->ensure_userbadges_table();
+
+        $badgeSlugs = $this->get_badges_to_notify($userId);
+        if (empty($badgeSlugs)) {
+            return;
+        }
+
+        $badgeCount = count($badgeSlugs);
+        $slug       = $badgeSlugs[0];
+
+        // Get or set badge name
+        $badgeName = qa_html(qa_lang('badges/' . $slug));
+        if (!qa_opt('badge_' . $slug . '_name')) {
+            qa_opt('badge_' . $slug . '_name', $badgeName);
+        }
+        $name = qa_html(qa_opt('badge_' . $slug . '_name'));
+
+        // Badge text
+        if ($badgeCount === 1) {
+            $badgeText = qa_html(qa_lang('badges/badge_notify')) .
+                         ' <span class="qa-badge">' . $name . '</span>';
+        } else {
+            $extraCount = $badgeCount - 1;
+            $numberText = ($badgeCount > 2)
+                ? str_replace('#', $extraCount, qa_lang('badges/badge_notify_multi_plural'))
+                : qa_lang('badges/badge_notify_multi_singular');
+
+            $badgeText = qa_html(qa_lang('badges/badge_notify')) .
+                         ' <span class="qa-badge">' . $name . '</span> ' .
+                         qa_html($numberText);
+        }
+
+        // Always link to badges tab
+        $profileUrl = $this->get_user_badges_url();
+
+        // Render notice
+        $this->badge_notice = $this->render_badge_notification_html($badgeText, $profileUrl);
+
+        // Reset notify flags
+        $this->clear_badge_notifications($userId);
+    }
+
+    /**
+     * Trigger a manual notification (generic)
+     */
+    public function trigger_notify($message) {
+        $badgeText  = qa_html(qa_lang('badges/badge_notify')) .
+                      ' <span class="qa-badge">' . qa_html($message) . '</span>';
+
+        // Always link to badges tab
+        $profileUrl = $this->get_user_badges_url();
+
+        $noticeHtml = $this->render_badge_notification_html($badgeText, $profileUrl);
+        $this->output($noticeHtml);
+    }
 	
 	// gained priviledge
 	function priviledge_notify() {

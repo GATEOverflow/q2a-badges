@@ -4,6 +4,14 @@
 
 # Q2A Badges Changelog
 
+## [5.2.39] - 2025-11-06
+
+ - **Added:** Modular functions for badge notification management.
+ - **Changed:** Standardized badge class names to `qa-badge-*`; updated notification text and markup.
+ - **Removed:** Legacy `badge_notify()` and old string keys (`badge_notify_profile_pre`, `badge_notify_profile`).
+
+---
+
 ## [5.2.38] - 2025-06-25
 
  - Widget - Url fix.

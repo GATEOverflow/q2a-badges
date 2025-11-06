@@ -110,16 +110,16 @@ foreach ($paginated_users as $uid => $ucount) {
     $visit_label = qa_lang('badges/visit_profile');
 
     echo <<<HTML
-        <li class="badge-list-item flex flex-row">
-            <div class="bliu-avatar flex">
+        <li class="qa-badge-list-item flex flex-row">
+            <div class="qbli-avatar flex">
                 {$avatarHTML}
             </div>
-            <div class="bliu-container flex">
-                <a class="bliu-link" href="{$profile_url}">{$handle_html}</a>
-                <span class="bliu-info">{$info}</span>
+            <div class="qbli-container flex">
+                <a class="qbli-link" href="{$profile_url}">{$handle_html}</a>
+                <span class="qbli-info">{$info}</span>
             </div>
-            <div class="bliu-more flex">
-                <a class="bliu-button" href="{$profile_url}">{$visit_label}</a>
+            <div class="qbli-more flex">
+                <a class="qbli-button" href="{$profile_url}">{$visit_label}</a>
             </div>
         </li>
 HTML;

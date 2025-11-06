@@ -405,7 +405,7 @@ function qa_badge_plugin_user_widget($handle) {
 	foreach($result as $slug) {
 		$bcount[$badges[$slug]['type']] = isset($bcount[$badges[$slug]['type']])?$bcount[$badges[$slug]['type']]+1:1; 
 	}
-	$output='<span class="badge-medals-widget">';
+	$output='<span class="qa-badge-medals-widget">';
 	for($x = 2; $x >= 0; $x--) {
 		if(!isset($bcount[$x])) continue;
 		$count = $bcount[$x];
@@ -414,8 +414,9 @@ function qa_badge_plugin_user_widget($handle) {
 		$type = qa_get_badge_type($x);
 		$types = $type['slug'];
 		$typed = $type['name'];
+		$tierClass = strtolower($type['name']);
 
-		$output.='<span class="badge-pointer badge-pointer-'.$typed.'" title="'.$count.' '.$typed.'"><span class="badge-'.$types.'-count">'.$count.'</span></span> ';
+		$output.='<span class="qa-badge-pointer qa-badge-pointer-'.$tierClass.'" title="'.$count.' '.$typed.'"><span class="qa-badge-'.$types.'-count">'.$count.'</span></span> ';
 	}
 	$output = substr($output,0,-1);  // lazy remove space
 	$output.='</span>';
@@ -458,13 +459,14 @@ function qa_badge_plugin_user_form($userid) {
 			$typea = qa_get_badge_type($type);
 			$types = $typea['slug'];
 			$typed = $typea['name'];
+			$TierClass = strtolower($typea['name']);
 
 			$output = '
 				<table>
 					<tr>
-						<td class="badge-title-wrapper qa-form-wide-label">
-							<h3 class="badge-title badge-title-' . qa_html($typed) . '">
-								<span class="badge-title-pointer" title="' . qa_lang('badges/' . $types . '_desc') . '">' . qa_html($typed) . '</span> 
+						<td class="qa-badge-title-wrapper qa-form-wide-label">
+							<h3 class="qa-badge-title qa-badge-title-' . qa_html($TierClass) . '">
+								<span class="qa-badge-title-pointer" title="' . qa_lang('badges/' . $types . '_desc') . '">' . qa_html($typed) . '</span> 
 								<span id="hmb-' . qa_html($typed) . '" class="hmb-perclass" title="' . count($badge) . ' ' . qa_lang('badges/badge_of_type') . '">(' . count($badge) . ')</span>
 							</h3>
 						</td>
@@ -485,11 +487,11 @@ function qa_badge_plugin_user_form($userid) {
 				
 				$fetchUrl = qa_path('qa-plugin/' . basename(__DIR__));
 				
-				$dataAttributes = 'class="badge-count"';
+				$dataAttributes = 'class="qa-badge-count"';
 					
 				if ($oids) {
 					$dataAttributes = '
-						class="badge-count-link noSelect"
+						class="qa-badge-count-link noSelect"
 						data-slug="'.qa_html($slug).'"
 						data-type-slug="'.qa_html($types).'"
 						data-name="'.qa_html($name).'"
@@ -501,12 +503,12 @@ function qa_badge_plugin_user_form($userid) {
 				
 				$output .= '
 					<tr>
-						<td class="badge-container">
-							<table class="badge-entry-row entry-' . qa_html($types) . '">
+						<td class="qa-badge-container">
+							<table class="qa-badge-entry-row entry-' . qa_html($types) . '">
 								<tbody>
-									<tr id="badge-anchor-' . qa_html($slug) . '">
+									<tr id="qa-badge-anchor-' . qa_html($slug) . '">
 										<td>
-											<span class="badge-' . qa_html($types) . '" title="' . htmlspecialchars($desc, ENT_QUOTES) . '">' . qa_html($name) . '</span>
+											<span class="qa-badge-' . qa_html($types) . '" title="' . htmlspecialchars($desc, ENT_QUOTES) . '">' . qa_html($name) . '</span>
 										</td>
 										<td>
 											<span title="'.$count.' '.qa_lang('badges/awarded').'" '.$dataAttributes.'>
@@ -527,7 +529,7 @@ function qa_badge_plugin_user_form($userid) {
 		}
 
 		$fields[] = array(
-				'value' => '<table class="badge-user-tables"><tr><td class="badge-user-table">'.implode('</td><td class="badge-user-table">',$outa).'</td></tr></table>',
+				'value' => '<table class="qa-badge-user-tables"><tr><td class="qa-badge-user-table">'.implode('</td><td class="qa-badge-user-table">',$outa).'</td></tr></table>',
 				'type' => 'static',
 		);
 	}
@@ -546,7 +548,7 @@ function qa_badge_plugin_user_form($userid) {
 
 		$select = (bool)qa_opt('badge_email_notify_id_'.$userid);
 		
-		$tags = 'id="badge-form" action="'.qa_self_html().'#signature_text" method="POST"';
+		$tags = 'id="qa-badge-form" action="'.qa_self_html().'#signature_text" method="POST"';
 		
 		$fields[] = array(
 			'type' => 'blank',
