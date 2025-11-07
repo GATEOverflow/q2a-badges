@@ -24,7 +24,7 @@ public $badge_notice;
 						),
 						'badges' => array(
 							'url' => qa_path_html('user/'.$this->_user_handle(), array('tab'=>'badges'), qa_path('')),
-							'label' => qa_lang('badges/badges'),
+							'label' => qa_lang_html('badges/badges'),
 							'selected' => qa_get('tab')=='badges'?true:false
 						),
 					);
@@ -32,7 +32,7 @@ public $badge_notice;
 				else {
 					$this->content['navigation']['sub']['badges'] = array(
 						'url' => qa_path_html('user/'.$this->_user_handle(), array('tab'=>'badges'), qa_path('')),
-						'label' => qa_lang('badges/badges'),
+						'label' => qa_lang_html('badges/badges'),
 						'selected' => qa_get('tab')=='badges'?true:false
 					);
 				}
@@ -197,7 +197,7 @@ public $badge_notice;
 	function post_meta_who($post, $class)
 	{
 		if (empty($post['who']['level']) && @$post['who'] && @$post['who']['data'] && qa_opt('badge_active') && (bool)qa_opt('badge_admin_user_widget') && ($class != 'qa-q-item' || qa_opt('badge_admin_user_widget_q_item')) ) {
-			$post['who']['suffix'] = (@$post['who']['suffix']).' <span class="qa-badge-medals-widget">'.qa_lang('badges/badge_anonymous_user').'</span>'; // No data
+			$post['who']['suffix'] = (@$post['who']['suffix']).' <span class="qa-badge-medals-widget">'.qa_lang_html('badges/badge_anonymous_user').'</span>'; // No data
 		} else if (@$post['who'] && @$post['who']['data'] && qa_opt('badge_active') && (bool)qa_opt('badge_admin_user_widget') && ($class != 'qa-q-item' || qa_opt('badge_admin_user_widget_q_item')) ) {
 			$handle = preg_replace('/ *<[^>]+> */', '',$post['who']['data']);
 			$post['who']['suffix'] = (@$post['who']['suffix']).' '.qa_badge_plugin_user_widget($handle);
@@ -333,9 +333,9 @@ public $badge_notice;
      * Render badge notification HTML
      */
     private function render_badge_notification_html($badgeText, $profileUrl) {
-        $preText  = qa_html(qa_lang('badges/badge_notify_view_it'));
-        $linkText = qa_html(qa_lang('badges/badge_notify_your_profile'));
-		$linkViewMore = qa_html(qa_lang('badges/badge_notify_see_more'));
+        $preText  = qa_lang_html('badges/badge_notify_view_it');
+        $linkText = qa_lang_html('badges/badge_notify_your_profile');
+		$linkViewMore = qa_lang_html('badges/badge_notify_see_more');
 
         return '
         <div class="notify-container">
@@ -346,10 +346,10 @@ public $badge_notice;
                         ' . $preText . ' <a class="notify-link" href="' . $profileUrl . '">' . $linkText . '</a>.
                     </span>
                 </div>
-				<span class="qa-badge-notify-interact">
+				<div class="qa-badge-notify-interact">
 					<a class="qa-badge-notify-button notify-link" href="' . $profileUrl . '">' . $linkViewMore . '</a>
 					<div class="qa-badge-notify-button notify-close" onclick="this.closest(\'.qa-badge-notify\').style.display=\'none\';" aria-label="Close notification">&#x2715;</div>
-				</span>
+				</div>
             </div>
         </div>';
     }
@@ -374,7 +374,7 @@ public $badge_notice;
         $slug       = $badgeSlugs[0];
 
         // Get or set badge name
-        $badgeName = qa_html(qa_lang('badges/' . $slug));
+        $badgeName = qa_lang_html('badges/' . $slug);
         if (!qa_opt('badge_' . $slug . '_name')) {
             qa_opt('badge_' . $slug . '_name', $badgeName);
         }
@@ -382,15 +382,15 @@ public $badge_notice;
 
         // Badge text
         if ($badgeCount === 1) {
-            $badgeText = qa_html(qa_lang('badges/badge_notify')) .
+            $badgeText = qa_lang_html('badges/badge_notify') .
                          ' <span class="qa-badge">' . $name . '</span>';
         } else {
             $extraCount = $badgeCount - 1;
             $numberText = ($badgeCount > 2)
-                ? str_replace('#', $extraCount, qa_lang('badges/badge_notify_multi_plural'))
-                : qa_lang('badges/badge_notify_multi_singular');
+                ? str_replace('#', $extraCount, qa_lang_html('badges/badge_notify_multi_plural'))
+                : qa_lang_html('badges/badge_notify_multi_singular');
 
-            $badgeText = qa_html(qa_lang('badges/badge_notify')) .
+            $badgeText = qa_lang_html('badges/badge_notify') .
                          ' <span class="qa-badge">' . $name . '</span> ' .
                          qa_html($numberText);
         }
@@ -409,7 +409,7 @@ public $badge_notice;
      * Trigger a manual notification (generic)
      */
     public function trigger_notify($message) {
-        $badgeText  = qa_html(qa_lang('badges/badge_notify')) .
+        $badgeText  = qa_lang_html('badges/badge_notify') .
                       ' <span class="qa-badge">' . qa_html($message) . '</span>';
 
         // Always link to badges tab

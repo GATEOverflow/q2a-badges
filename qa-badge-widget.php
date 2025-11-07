@@ -209,7 +209,7 @@ class qa_badge_widget {
 		$badgeName = qa_html($badgeDetails['name']);
 		$badgeDesc = qa_html($badgeDetails['desc']);
 		$badgeType = qa_html($badgeDetails['type']);
-		$langEarnedBadge = qa_lang('badges/widget_badge_earned');
+		$langEarnedBadge = qa_lang_html('badges/widget_badge_earned');
 
 		$avatarUrl = get_user_avatar($handle, 70);  // Use util function
 		$avatarHtml = generate_avatar_html($handle, $avatarUrl, 35);  // Use util function
@@ -269,7 +269,7 @@ HTML;
 			</span>
 		';
 		
-		$themeobject->output('<h2>' . $svgIcon . qa_lang('badges/badge_widget_title') . '</h2>');
+		$themeobject->output('<h2>' . $svgIcon . qa_lang_html('badges/badge_widget_title') . '</h2>');
 	}
 	
 }

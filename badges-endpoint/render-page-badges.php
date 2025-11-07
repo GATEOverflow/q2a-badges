@@ -107,7 +107,7 @@ foreach ($paginated_users as $uid => $ucount) {
     $profile_url = qa_path_html('user/' . $handle);
     $handle_html = qa_html($handle);
     $info        = ($ucount > 1) ? ' x' . $ucount : '';
-    $visit_label = qa_lang('badges/visit_profile');
+    $visit_label = qa_lang_html('badges/visit_profile');
 
     echo <<<HTML
         <li class="qa-badge-list-item flex flex-row">

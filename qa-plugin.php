@@ -14,7 +14,7 @@ qa_register_plugin_layer('qa-badge-layer.php', 'Badge Notification Layer');
 qa_register_plugin_phrases('lang/qa-badge-lang-*.php', 'badges');
 
 function qa_badge_lang($string) {
-	return qa_lang($string);
+	return qa_lang_html($string);
 }
 
 function qa_get_badge_list() {
@@ -148,9 +148,9 @@ function qa_get_badge_type($id) {
 	// badge categories, e.g. bronze, silver, gold
 	$badge_types = array();
 	
-	$badge_types[] = array('slug'=>'bronze','name'=>qa_lang('badges/bronze'));
-	$badge_types[] = array('slug'=>'silver','name'=>qa_lang('badges/silver'));
-	$badge_types[] = array('slug'=>'gold','name'=>qa_lang('badges/gold'));
+	$badge_types[] = array('slug'=>'bronze','name'=>qa_lang_html('badges/bronze'));
+	$badge_types[] = array('slug'=>'silver','name'=>qa_lang_html('badges/silver'));
+	$badge_types[] = array('slug'=>'gold','name'=>qa_lang_html('badges/gold'));
 	
 	$id = (int)$id;
 	
@@ -288,16 +288,16 @@ function qa_badge_notification($uid, $oid, $badge_slug) {
 
 function qa_badge_name($slug, $reset=false) {
 	if($reset)
-		$name = qa_lang('badges/'.$slug);
+		$name = qa_lang_html('badges/'.$slug);
 	else
-		$name = qa_opt('badge_'.$slug.'_name')?qa_opt('badge_'.$slug.'_name'):qa_lang('badges/'.$slug);
+		$name = qa_opt('badge_'.$slug.'_name')?qa_opt('badge_'.$slug.'_name'):qa_lang_html('badges/'.$slug);
 	
 	// plugins
 	
 	if($name == '[badges/'.$slug.']') {
 		global $qa_lang_file_pattern;
 		foreach($qa_lang_file_pattern as $name => $files) {
-			$lang = qa_lang($name.'/badge_'.$slug);
+			$lang = qa_lang_html($name.'/badge_'.$slug);
 			if($lang != '['.$name.'/badge_'.$slug.']') {
 				return $lang;
 			}
@@ -309,14 +309,14 @@ function qa_badge_name($slug, $reset=false) {
 
 
 function qa_badge_desc_replace($slug, $var=null, $admin=false) {
-	$desc = qa_opt('badge_'.$slug.'_desc')?qa_opt('badge_'.$slug.'_desc'):qa_lang('badges/'.$slug.'_desc');
+	$desc = qa_opt('badge_'.$slug.'_desc')?qa_opt('badge_'.$slug.'_desc'):qa_lang_html('badges/'.$slug.'_desc');
 	
 	// plugins
 	
 	if($desc == '[badges/'.$slug.'_desc]') {
 		global $qa_lang_file_pattern;
 		foreach($qa_lang_file_pattern as $name => $files) {
-			$lang = qa_lang($name.'/badge_'.$slug.'_desc');
+			$lang = qa_lang_html($name.'/badge_'.$slug.'_desc');
 			if($lang != '['.$name.'/badge_'.$slug.'_desc]') {
 				$desc = $lang;
 				break;
@@ -338,7 +338,7 @@ function qa_badge_desc_replace($slug, $var=null, $admin=false) {
 	if(!$others) return $desc;
 	
 	foreach($others as $other) {
-		if(!qa_opt('badge_'.$other[1].'_name')) qa_opt('badge_'.$other[1].'_name',qa_lang('badges/'.$other[1]));
+		if(!qa_opt('badge_'.$other[1].'_name')) qa_opt('badge_'.$other[1].'_name',qa_lang_html('badges/'.$other[1]));
 		$name = qa_opt('badge_'.$other[1].'_name');
 
 		$desc = str_replace($other[0],$name,$desc);
@@ -466,8 +466,8 @@ function qa_badge_plugin_user_form($userid) {
 					<tr>
 						<td class="qa-badge-title-wrapper qa-form-wide-label">
 							<h3 class="qa-badge-title qa-badge-title-' . qa_html($TierClass) . '">
-								<span class="qa-badge-title-pointer" title="' . qa_lang('badges/' . $types . '_desc') . '">' . qa_html($typed) . '</span> 
-								<span id="hmb-' . qa_html($typed) . '" class="hmb-perclass" title="' . count($badge) . ' ' . qa_lang('badges/badge_of_type') . '">(' . count($badge) . ')</span>
+								<span class="qa-badge-title-pointer" title="' . qa_lang_html('badges/' . $types . '_desc') . '">' . qa_html($typed) . '</span> 
+								<span id="hmb-' . qa_html($typed) . '" class="hmb-perclass" title="' . count($badge) . ' ' . qa_lang_html('badges/badge_of_type') . '">(' . count($badge) . ')</span>
 							</h3>
 						</td>
 					</tr>';
@@ -511,7 +511,7 @@ function qa_badge_plugin_user_form($userid) {
 											<span class="qa-badge-' . qa_html($types) . '" title="' . htmlspecialchars($desc, ENT_QUOTES) . '">' . qa_html($name) . '</span>
 										</td>
 										<td>
-											<span title="'.$count.' '.qa_lang('badges/awarded').'" '.$dataAttributes.'>
+											<span title="'.$count.' '.qa_lang_html('badges/awarded').'" '.$dataAttributes.'>
 												'.$count.'x
 											</span>
 										</td>
@@ -543,7 +543,7 @@ function qa_badge_plugin_user_form($userid) {
 		// add badge notify checkbox
 		if(qa_clicked('badge_email_notify_save')) {
 			qa_opt('badge_email_notify_id_'.$userid, (bool)qa_post_text('badge_notify_email_me'));
-			$ok = qa_lang('badges/badge_notified_email_me');
+			$ok = qa_lang_html('badges/badge_notified_email_me');
 		}
 
 		$select = (bool)qa_opt('badge_email_notify_id_'.$userid);
@@ -555,7 +555,7 @@ function qa_badge_plugin_user_form($userid) {
 		);
 		
 		$fields[] = array(
-			'label' => qa_lang('badges/badge_notify_email_me'),
+			'label' => qa_lang_html('badges/badge_notify_email_me'),
 			'type' => 'checkbox',
 			'tags' => 'NAME="badge_notify_email_me"',
 			'value' => $select,
@@ -571,7 +571,7 @@ function qa_badge_plugin_user_form($userid) {
 		'ok' => ($ok && !isset($error)) ? $ok : null,
 		'style' => 'tall',
 		'tags' => $tags,
-		'title' => qa_lang('badges/badges'),
+		'title' => qa_lang_html('badges/badges'),
 		'fields'=>$fields,
 		'buttons'=>$buttons,
 	);

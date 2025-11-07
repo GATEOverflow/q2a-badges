@@ -54,7 +54,7 @@ foreach ($result as $row) {
     $postid = $row['object_id'];
     if (!$postid) continue;
 
-    $post = qa_post_get_full($postid);
+    $post = safe_qa_post_get_full($postid);
     if (!$post) continue;
 
     if ($post['parentid']) {
@@ -91,8 +91,15 @@ foreach ($result as $row) {
     $postid = $row['object_id'];
     if (!$postid) continue;
 
-    $post = qa_post_get_full($postid);
-    if (!$post) continue;
+    $post = safe_qa_post_get_full($postid);
+    
+    if (!$post) {
+        // Post has been deleted or is invalid
+        echo '<div class="qa-badge-source"><span>' . qa_lang_html('badges/badge_empty_source') . '</span></div>';
+        $valid++;
+        if ($valid >= $limit) break;
+        continue;
+    }
 
     $title = isset($post['title']) ? $post['title'] : '[no title]';
     $decodedTitle = htmlspecialchars_decode($title, ENT_QUOTES);
@@ -102,7 +109,7 @@ foreach ($result as $row) {
     $safeTitle = htmlspecialchars($titleCropped, ENT_NOQUOTES);
 
     if (qa_strlen($safeTitle) === 0) {
-        $safeTitle = '<span>' . qa_lang('badges/badge_empty_source') . '</span>';
+        $safeTitle = '<span>' . qa_lang_html('badges/badge_empty_source') . '</span>';
     }
 
     // Default to post URL
@@ -117,7 +124,7 @@ foreach ($result as $row) {
         $safeTitle = htmlspecialchars(truncate_badge_title($decodedTitle, $titleLength), ENT_NOQUOTES);
 
         if (empty($parentTitles[$post['parentid']])) {
-            $safeTitle = '<span>' . qa_lang('badges/badge_empty_source') . '</span>';
+            $safeTitle = '<span>' . qa_lang_html('badges/badge_empty_source') . '</span>';
             $isHiddenPost = true;
         }
     }

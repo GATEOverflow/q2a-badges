@@ -53,6 +53,22 @@ function qa_get_badge_award_counts() {
 }
 
 /**
+ * Safely retrieves a full post record by ID without triggering a fatal error
+ * if the post does not exist.
+ *
+ * This is a wrapper around qa_post_get_full() that returns null instead of
+ * halting execution when a post cannot be found (for example, if it has been
+ * deleted or the ID is invalid).
+ *
+ * @param int $postid The ID of the post to retrieve.
+ * @return array|null The full post data array if found, or null if not found.
+ */
+function safe_qa_post_get_full($postid) {
+    $post = qa_db_single_select(qa_db_full_post_selectspec(null, $postid));
+    return is_array($post) ? $post : null;
+}
+
+/**
  * Truncates a title to a specified length.
  *
  * @param string $title The title string.

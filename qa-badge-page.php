@@ -15,7 +15,7 @@ class qa_badge_page {
 	{	
 		return array(
 			array(
-				'title' => qa_lang('badges/badges'),
+				'title' => qa_lang_html('badges/badges'),
 				'request' => 'badges',
 				'nav' => 'M', // 'M'=main, 'F'=footer, 'B'=before main, 'O'=opposite main, null=none
 			),
@@ -39,7 +39,7 @@ class qa_badge_page {
 		$qa_content = qa_content_prepare();
 
 		// Set the page title
-		$qa_content['title'] = qa_lang('badges/badge_list_title');
+		$qa_content['title'] = qa_lang_html('badges/badge_list_title');
 
 		// Get the list of all badges
 		$badges = qa_get_badge_list();
@@ -60,18 +60,18 @@ class qa_badge_page {
 		// Descirption of Badges list
 		$qa_content['custom'] = 
 			'<p class="total-badges">'.
-				'<span><strong>' . count($badges) . '</strong> ' . qa_lang('badges/badges_total') . '</span>'.
-				($totalAwarded > 0 ? ', <span class="total-badge-count"><strong>' . round($totalAwarded) . '</strong> ' . qa_lang('badges/awarded_total') . '</span>' : '').
+				'<span><strong>' . count($badges) . '</strong> ' . qa_lang_html('badges/badges_total') . '</span>'.
+				($totalAwarded > 0 ? ', <span class="total-badge-count"><strong>' . round($totalAwarded) . '</strong> ' . qa_lang_html('badges/awarded_total') . '</span>' : '').
 			'</p>'.
-			'<em>'.qa_lang('badges/badge_list_pre').'</em>';
+			'<em>'.qa_lang_html('badges/badge_list_pre').'</em>';
 		
 		// Table header
 		$qa_content['custom2'] = '
 		<table class="qa-badge-entry-row qa-badge-entry-row-title">
 			<tr>
-				<td>' . qa_lang('badges/badge_name') . '</td>
-				<td>' . qa_lang('badges/badge_description') . '</td>
-				<td>' . qa_lang('badges/awarded') . '</td>
+				<td>' . qa_lang_html('badges/badge_name') . '</td>
+				<td>' . qa_lang_html('badges/badge_description') . '</td>
+				<td>' . qa_lang_html('badges/awarded') . '</td>
 			</tr>
 		</table>';
 
@@ -128,7 +128,7 @@ class qa_badge_page {
 						$dataAttributes = 'class="qa-badge-count"';
 						
 						if (qa_opt('badge_show_source_users') && isset($badgeAwardCounts[$slug])) {
-							// data-popup-title="'.qa_lang('badges/badge_widget_title').'"
+							// data-popup-title="'.qa_lang_html('badges/badge_widget_title').'"
 							$dataAttributes = '
 								class="qa-badge-count-link noSelect" 
 								data-slug="'.qa_html($slug).'" 
@@ -141,13 +141,13 @@ class qa_badge_page {
 						
 						$qa_content['custom' . $contentIndex] .=
 							'<td>
-								<span title="'.$countForBadge.' '.qa_lang('badges/awarded').'" '.$dataAttributes.'>
+								<span title="'.$countForBadge.' '.qa_lang_html('badges/awarded').'" '.$dataAttributes.'>
 									'.$countForBadge.'x
 								</span>
 							</td>';
 					} else {
 						$qa_content['custom' . $contentIndex] .= 
-							'<td><span class="qa-badge-count" title="0 '.qa_lang('badges/awarded').'" >0</span></td>';
+							'<td><span class="qa-badge-count" title="0 '.qa_lang_html('badges/awarded').'" >0</span></td>';
 					}
 
 					$qa_content['custom' . $contentIndex] .= '</tr>';

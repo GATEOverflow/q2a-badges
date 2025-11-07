@@ -60,7 +60,7 @@ class qa_badge_admin {
 		switch($option) {
 			case 'badge_'.$slug.'_name':
 				//return qa_badge_name('badges/'.$slug);
-				return qa_lang('badges/'.$slug);
+				return qa_lang_html('badges/'.$slug);
 			case 'badge_'.$slug.'_var':
 				return @$badges[$slug]['var'];
 			case 'badge_'.$slug.'_enabled':
@@ -122,13 +122,13 @@ You may cancel these notices at any time by visiting your profile at the link ab
 		}
 		else if (qa_clicked('badge_cleanup_button')) {
 			$this->qa_cleanup_invalid_userbadges();
-			$ok = qa_lang('badges/badge_cleanup_complete');
+			$ok = qa_lang_html('badges/badge_cleanup_complete');
 		}
 		else if (qa_clicked('badge_reset_names')) {
 			foreach ($badges as $slug => $info) {
 				qa_opt('badge_'.$slug.'_name',qa_badge_name($slug,true));
 			}
-			$ok = qa_lang('badges/badge_names_reset');
+			$ok = qa_lang_html('badges/badge_names_reset');
 		}
 		else if (qa_clicked('badge_reset_values')) {
 			foreach ($badges as $slug => $info) {
@@ -136,7 +136,7 @@ You may cancel these notices at any time by visiting your profile at the link ab
 					qa_opt('badge_'.$slug.'_var',$info['var']);
 				}
 			}
-			$ok = qa_lang('badges/badge_values_reset');
+			$ok = qa_lang_html('badges/badge_values_reset');
 		}
 		else if (qa_clicked('badge_trigger_notify')) {
 			$qa_content['test-notify'] = 1;
@@ -220,14 +220,14 @@ You may cancel these notices at any time by visiting your profile at the link ab
 				qa_opt('badge_email_body',qa_post_text('badge_email_body'));
 				qa_opt('badges_css',qa_post_text('badges_css'));
 			}
-			$ok = qa_lang('badges/badge_admin_saved');
+			$ok = qa_lang_html('badges/badge_admin_saved');
 		}
 
 		// Create the form for display
 		$fields = array();
 
 		$fields[] = array(
-			'label' => qa_lang('badges/badge_admin_activate'),
+			'label' => qa_lang_html('badges/badge_admin_activate'),
 			'tags' => 'NAME="badge_active_check"',
 			'value' => qa_opt('badge_active'),
 			'type' => 'checkbox',
@@ -236,12 +236,12 @@ You may cancel these notices at any time by visiting your profile at the link ab
 		if(qa_opt('badge_active')) {
 
 			$fields[] = array(
-					'label' => qa_lang('badges/active_badges').':',
+					'label' => qa_lang_html('badges/active_badges').':',
 					'type' => 'static',
 			);
 
 			$fields[] = array(
-				'label' => qa_lang('badges/badge_admin_select_all'),
+				'label' => qa_lang_html('badges/badge_admin_select_all'),
 				'tags' => 'onclick="var isx = this.checked; jQuery(\'.qa-badge-listing :checkbox\').prop(\'checked\',isx);"',
 				'value' => false,
 				'type' => 'checkbox',
@@ -260,7 +260,7 @@ You may cancel these notices at any time by visiting your profile at the link ab
 
 				$fields[] = array(
 						'type' => 'static',
-						'note' => '<table class="qa-badge-listing"><tr><td><input type="checkbox" name="badge_'.$slug.'_enabled"'.(qa_opt('badge_'.$slug.'_enabled') !== '0' ? ' checked':'').'></td><td><input type="text" name="badge_'.$slug.'_edit" id="badge_'.$slug.'_edit" style="display:none" size="16" onblur="badgeEdit(\''.$slug.'\',true)" value="'.$name.'"><span id="qa-badge_'.$slug.'_badge" class="qa-badge-'.$types.'" onclick="badgeEdit(\''.$slug.'\')" title="'.qa_lang('badges/badge_admin_click_edit').'">'.$name.'</span></td><td>'.$badge_desc.'</td></tr></table>'
+						'note' => '<table class="qa-badge-listing"><tr><td><input type="checkbox" name="badge_'.$slug.'_enabled"'.(qa_opt('badge_'.$slug.'_enabled') !== '0' ? ' checked':'').'></td><td><input type="text" name="badge_'.$slug.'_edit" id="badge_'.$slug.'_edit" style="display:none" size="16" onblur="badgeEdit(\''.$slug.'\',true)" value="'.$name.'"><span id="qa-badge_'.$slug.'_badge" class="qa-badge-'.$types.'" onclick="badgeEdit(\''.$slug.'\')" title="'.qa_lang_html('badges/badge_admin_click_edit').'">'.$name.'</span></td><td>'.$badge_desc.'</td></tr></table>'
 				);
 			}
 
@@ -270,11 +270,11 @@ You may cancel these notices at any time by visiting your profile at the link ab
 			
 			/* DEPRECATED
 			$fields[] = array(
-					'label' => qa_lang('badges/notify_time').':',
+					'label' => qa_lang_html('badges/notify_time').':',
 					'type' => 'number',
 					'value' => qa_opt('badge_notify_time'),
 					'tags' => 'NAME="badge_notify_time"',
-					'note' => '<em>'.qa_lang('badges/notify_time_desc').'</em>',
+					'note' => '<em>'.qa_lang_html('badges/notify_time_desc').'</em>',
 			);
 
 			$fields[] = array(
@@ -283,14 +283,14 @@ You may cancel these notices at any time by visiting your profile at the link ab
 			*/
 
 			$fields[] = array(
-				'label' => qa_lang('badges/badge_admin_user_field'),
+				'label' => qa_lang_html('badges/badge_admin_user_field'),
 				'tags' => 'NAME="badge_admin_user_field"',
 				'value' => (bool)qa_opt('badge_admin_user_field'),
 				'type' => 'checkbox',
 			);
 
 			$fields[] = array(
-				'label' => qa_lang('badges/badge_admin_user_field_no_tab'),
+				'label' => qa_lang_html('badges/badge_admin_user_field_no_tab'),
 				'tags' => 'NAME="badge_admin_user_field_no_tab"',
 				'value' => (bool)qa_opt('badge_admin_user_field_no_tab'),
 				'type' => 'checkbox',
@@ -301,42 +301,42 @@ You may cancel these notices at any time by visiting your profile at the link ab
 			);
 
 			$fields[] = array(
-				'label' => qa_lang('badges/badge_show_source_posts'),
+				'label' => qa_lang_html('badges/badge_show_source_posts'),
 				'tags' => 'NAME="badge_show_source_posts"',
 				'value' => (bool)qa_opt('badge_show_source_posts'),
 				'type' => 'checkbox',
 			);
 
 			$fields[] = array(
-				'label' => qa_lang('badges/badge_show_source_users'),
+				'label' => qa_lang_html('badges/badge_show_source_users'),
 				'tags' => 'NAME="badge_show_source_users"',
 				'value' => (bool)qa_opt('badge_show_source_users'),
 				'type' => 'checkbox',
 			);
 
 			$fields[] = array(
-				'label' => qa_lang('badges/badge_admin_user_widget'),
+				'label' => qa_lang_html('badges/badge_admin_user_widget'),
 				'tags' => 'NAME="badge_admin_user_widget"',
 				'value' => (bool)qa_opt('badge_admin_user_widget'),
 				'type' => 'checkbox',
 			);
 
 			$fields[] = array(
-				'label' => qa_lang('badges/badge_admin_user_widget_q_item'),
+				'label' => qa_lang_html('badges/badge_admin_user_widget_q_item'),
 				'tags' => 'NAME="badge_admin_user_widget_q_item"',
 				'value' => (bool)qa_opt('badge_admin_user_widget_q_item'),
 				'type' => 'checkbox',
 			);
 
 			$fields[] = array(
-				'label' => qa_lang('badges/badge_admin_loggedin_widget'),
+				'label' => qa_lang_html('badges/badge_admin_loggedin_widget'),
 				'tags' => 'NAME="badge_admin_loggedin_widget"',
 				'value' => (bool)qa_opt('badge_admin_loggedin_widget'),
 				'type' => 'checkbox',
 			);
 
 			$fields[] = array(
-				'label' => qa_lang('badges/badge_show_users_badges'),
+				'label' => qa_lang_html('badges/badge_show_users_badges'),
 				'tags' => 'NAME="badge_show_users_badges"',
 				'value' => (bool)qa_opt('badge_show_users_badges'),
 				'type' => 'checkbox',
@@ -358,14 +358,14 @@ You may cancel these notices at any time by visiting your profile at the link ab
 			);
 			
 			$fields[] = array(
-				'label' => qa_lang('badges/widget_list_max').':',
+				'label' => qa_lang_html('badges/widget_list_max').':',
 				'type' => 'number',
 				'value' => qa_opt('badge_widget_list_max'),
 				'tags' => 'NAME="badge_widget_list_max"',
 			);
 			
 			$fields[] = array(
-				'label' => qa_lang('badges/widget_date_max').':',
+				'label' => qa_lang_html('badges/widget_date_max').':',
 				'type' => 'number',
 				'value' => qa_opt('badge_widget_date_max'),
 				'tags' => 'NAME="badge_widget_date_max"',
@@ -375,7 +375,7 @@ You may cancel these notices at any time by visiting your profile at the link ab
 			);
 
 			$fields[] = array(
-				'label' => qa_lang('badges/badge_email_notify'),
+				'label' => qa_lang_html('badges/badge_email_notify'),
 				'tags' => 'NAME="badge_email_notify" onclick="if(this.checked) jQuery(\'#badge_email_container\').fadeIn(); else jQuery(\'#badge_email_container\').fadeOut();"',
 				'value' => (bool)qa_opt('badge_email_notify'),
 				'type' => 'checkbox',
@@ -383,21 +383,21 @@ You may cancel these notices at any time by visiting your profile at the link ab
 			);
 
 			$fields[] = array(
-				'label' => qa_lang('badges/badge_email_notify_on'),
+				'label' => qa_lang_html('badges/badge_email_notify_on'),
 				'tags' => 'NAME="badge_email_notify_on" id="badge_email_notify_on"',
 				'value' => (bool)qa_opt('badge_email_notify_on'),
 				'type' => 'checkbox',
 			);
 
 			$fields[] = array(
-				'label' => qa_lang('badges/badge_email_subject'),
+				'label' => qa_lang_html('badges/badge_email_subject'),
 				'tags' => 'NAME="badge_email_subject" id="badge_email_subject"',
 				'value' => qa_opt('badge_email_subject'),
 				'type' => 'text',
 			);
 
 			$fields[] = array(
-				'label' =>  qa_lang('badges/badge_email_body'),
+				'label' =>  qa_lang_html('badges/badge_email_body'),
 				'tags' => 'name="badge_email_body" id="badge_email_body"',
 				'value' => qa_opt('badge_email_body'),
 				'type' => 'textarea',
@@ -416,38 +416,38 @@ You may cancel these notices at any time by visiting your profile at the link ab
 			'fields' => $fields,
 			'buttons' => array(
 				array(
-					'label' => qa_lang('badges/badge_trigger_notify'),
+					'label' => qa_lang_html('badges/badge_trigger_notify'),
 					'tags' => 'name="badge_trigger_notify"'.(qa_opt('badge_active')?'':' disabled="true"'),
-					'note' => '<em>'.qa_lang('badges/badge_trigger_notify_desc').'</em>',
+					'note' => '<em>'.qa_lang_html('badges/badge_trigger_notify_desc').'</em>',
 				),
 				array(
-					'label' => qa_lang('badges/badge_reset_names'),
+					'label' => qa_lang_html('badges/badge_reset_names'),
 					'tags' => 'NAME="badge_reset_names"',
-					'note' => '<em>'.qa_lang('badges/badge_reset_names_desc').'</em>',
+					'note' => '<em>'.qa_lang_html('badges/badge_reset_names_desc').'</em>',
 				),
 				array(
-					'label' => qa_lang('badges/badge_reset_css'),
+					'label' => qa_lang_html('badges/badge_reset_css'),
 					'tags' => 'NAME="badge_reset_css"',
 				),
 				array(
-					'label' => qa_lang('badges/badge_reset_values'),
+					'label' => qa_lang_html('badges/badge_reset_values'),
 					'tags' => 'NAME="badge_reset_values"',
-					'note' => '<em>'.qa_lang('badges/badge_reset_values_desc').'</em>',
+					'note' => '<em>'.qa_lang_html('badges/badge_reset_values_desc').'</em>',
 				),
 				array(
-					'label' => qa_lang('badges/badge_cleanup_button'),
+					'label' => qa_lang_html('badges/badge_cleanup_button'),
 					'tags' => 'NAME="badge_cleanup_button"',
-					'note' => '<em>'.qa_lang('badges/badge_cleanup_button_desc').'</em>',
+					'note' => '<em>'.qa_lang_html('badges/badge_cleanup_button_desc').'</em>',
 				),
 				array(
-					'label' => qa_lang('badges/badge_award_button'),
+					'label' => qa_lang_html('badges/badge_award_button'),
 					'tags' => 'NAME="badge_award_button"',
-					'note' => '<em>'.qa_lang('badges/badge_award_button_desc').'</em><br/><input type="checkbox" name="badge_award_delete"><b>'.qa_lang('badges/badge_award_delete_desc').'</b><br/>',
+					'note' => '<em>'.qa_lang_html('badges/badge_award_button_desc').'</em><br/><input type="checkbox" name="badge_award_delete"><b>'.qa_lang('badges/badge_award_delete_desc').'</b><br/>',
 				),
 				array(
-					'label' => qa_lang('badges/save_settings'),
+					'label' => qa_lang_html('badges/save_settings'),
 					'tags' => 'NAME="badge_save_settings"',
-					'note' => '<em>'.qa_lang('badges/save_settings_desc').'</em>',
+					'note' => '<em>'.qa_lang_html('badges/save_settings_desc').'</em>',
 				),
 			),
 		);
