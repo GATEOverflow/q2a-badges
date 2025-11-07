@@ -6,9 +6,9 @@
 
 ## [5.2.40] - 2025-11-06
 
- - Added `safe_qa_post_get_full()` to avoid fatal errors when `qa_post_get_full()` can’t find a post.  
- - Updated profile badge rendering to show `"Deleted post"` for removed or invalid posts, keeping badge counts consistent.  
- - Switched several `qa_lang()` calls to `qa_lang_html()` for safe, escaped, consistent output.  
+ - Added `safe_qa_post_get_full()` to avoid fatal errors when `qa_post_get_full()` can’t find a post.
+ - Show "Deleted post" for removed/invalid badge sources in profile, keeping badge counts consistent.
+ - Switched several `qa_lang()` calls to `qa_lang_html()` for safe, escaped and consistent output.
  - Minor logic cleanup in parent ID collection and rendering loops.
 
 ---

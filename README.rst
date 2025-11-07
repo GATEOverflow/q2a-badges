@@ -8,7 +8,7 @@ Question2Answer Badges (Extended version)
 .. _changelog.md: changelog.md
 .. _Q2A Badges Live: https://polaris.unaux.com/badges
 
-.. image:: https://i.ibb.co/Rz9rfk4/bmc-button.png
+.. image:: https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg8wZizhrITteen8xuUy77OvCHtDsTdhB5eUcDuLzh-UOuNNBWIeisGglLNRsdrC4a2Aer3vkmPBXdWe5e_Wwg9c5shxJNInD1PC7UltQFWuj6qfx-Q6IUCdCIwvwsD2XE3lEFVCwXI9MxD4nBuZ8gZ_3MAhEAPZy9sJTjBdtDirF86uTsEtOiMXJ8w9q-t/s1600/buymeacoffee.png
    :target: https://www.paypal.com/paypalme/chun128
 
 -----------
