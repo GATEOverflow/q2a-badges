@@ -1,9 +1,758 @@
 /*
-    Plugin Name:Badges Q2A
-    Plugin URI:https://github.com/rxchun/q2a-badges
+    Plugin Name: Badges Q2A
+    Plugin URI: https://github.com/rxchun/q2a-badges
     
-    Extension Author:Chun (Gold Developer)
-    Extension Author URI:https://rxchun.github.io/?ref=q2a-badges-github
+    Extension Author: Chun (Gold Developer)
+    Extension Author URI: https://rxchun.github.io/?ref=q2a-badges-github
 */
 
-.clear{clear:both;}.flex{display:flex;}.flex-column{flex-direction:column;}.flex-row{flex-direction:row;}.noScroll,.no-scroll{overflow:hidden;}.qa-badge,.qa-badge-bronze,.qa-badge-silver,.qa-badge-gold{display:inline-block;background-color:#424242;color:#fff;font-size:13px;line-height:24px;font-weight:400;text-align:left;white-space:nowrap;padding:2px 10px 2px 7px;margin-bottom:5px;border:0;border-top-left-radius:30px;border-bottom-left-radius:30px;border-top-right-radius:10px;border-bottom-right-radius:10px;box-shadow:0 2px 2px 0 rgba(0,0,0,0.14),0 1px 5px 0 rgba(0,0,0,0.12),0 3px 1px -2px rgba(0,0,0,0.2);}.qa-badge-notify .qa-badge{margin-bottom:0;}.qa-badge-bronze:before,.qa-badge-silver:before,.qa-badge-gold:before,.qa-badge:before{content:"";height:8px;width:8px;display:inline-block;margin-right:5px;border-radius:50%;}.qa-badge-bronze:before{background-color:#b3934e;}.qa-badge-silver:before{background-color:#ababab;}.qa-badge-gold:before{background-color:#FFCC01;}.qa-badge:before{background-color:#3ea6ff;}.qa-badge-bronze-count:before,.qa-badge-silver-count:before,.qa-badge-gold-count:before{content:"";display:inline-block;width:7px;height:7px;background-color:#000;border-radius:10px;margin:1px;}.qa-badge-bronze-count:before{background-color:#b3934e;}.qa-badge-silver-count:before{background-color:#ababab;}.qa-badge-gold-count:before{background-color:#FFCC01;}.qa-badge-bronze br,.qa-badge-silver br,.qa-badge-gold br{content:"";display:inline-block;height:0;width:5px;}.qa-badge-count{color:#9E9E9E;padding:5px 6px;}.qa-badge-count-link{cursor:pointer;color:#039BE5;}.notify-container{position:fixed;top:initial;left:25px;bottom:25px;max-width:90%;z-index:99999999;}.qa-badge-notify{display:flex;text-align:left;background-color:#0f0f0f;font-family:inherit;font-weight:400;color:#fff;box-shadow:0 8px 10px 1px rgba(0,0,0,0.14),0 3px 14px 2px rgba(0,0,0,0.12),0 5px 5px -3px rgba(0,0,0,0.2);border-radius:8px;}.qa-badge-notify a{color:#90CAF9;}.qa-badge-notify-text{padding:.8rem 0rem .8rem 1.5rem;}.qa-badge-check-profile{display:none;}.qa-badge-notify-interact{margin-inline-start:.5rem;display:flex;}.notify-link{font-weight:500;}.qa-badge-notify-button{min-width:50px;display:flex;justify-content:center;align-items:center;flex-wrap:nowrap;padding:0 .5rem;cursor:pointer;}.qa-badge-notify-button:hover{background-color:rgb(255 255 255 / 10%);}.qa-badge-user-tables{width:100%;}.qa-badge-user-table{vertical-align:top;padding:0 5px;width:33.3%;}.qa-badge-user-table table{width:100%;}.qa-badge-user-table .qa-form-wide-label{padding:0;}.qa-badge-bronze-medal,.qa-badge-silver-medal,.qa-badge-gold-medal{font-size:20px;}.qa-badge-entry-row-title{font-weight:500;}.qa-badge-entry-row-title td{padding:0.5rem 0;}.qa-badge-entry,.qa-badge-entry-row{width:100%;}.qa-badge-entry td:first-of-type{width:25%;padding:0;}.qa-badge-entry-row-title td:nth-child(2),.qa-badge-entry td:nth-child(2){width:60%;}.qa-badge-entry-row-title td:nth-child(3),.qa-badge-entry td:nth-child(3){width:15%;text-align:right;}.qa-part-custom2{padding:1rem 0;margin-bottom:1rem;border-bottom:1px solid #E0E0E0;}.badgeGroup{padding:.6rem 0;border-top:1px solid #E0E0E0;max-width:100%;}@media (min-width:630px){.badgeGroup{padding:0.6rem 1rem;}}.qa-badge-divider{width:100%;height:1px;background-color:#E0E0E0;margin:0.6rem 0;}.qa-badge-entry-desc{font-size:14px;line-height:normal;}.qa-badge-container-sources{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2;display:none;text-align:initial;}.qa-badge-show-source{display:block!important;}.qa-badge-source-container{position:absolute;top:50%;left:50%;z-index:1;transform-origin:0 0;transform:scale(0) translateX(-50%) translateY(-50%);transition:opacity 0.3s cubic-bezier(0.175,0.885,.22,1.125),transform 0.3s cubic-bezier(0.175,0.885,.22,1.145);backface-visibility:hidden;opacity:0;pointer-events:none;background-color:#fff;padding:1rem;box-shadow:0 16px 24px 2px rgba(0,0,0,0.14),0 6px 30px 5px rgba(0,0,0,0.12),0 8px 10px -5px rgba(0,0,0,0.4);border-radius:6px;width:85%;max-width:375px;}.qa-badge-show-source .qa-badge-source-container{opacity:1;pointer-events:auto;transform:scale(1) translateX(-50%) translateY(-50%);backface-visibility:hidden;}.qa-badge-source-header{padding-bottom:.5rem;box-shadow:0px 5px 5px -4px rgb(0 0 0 / 10%);}.qa-badge-sources-wrapper{flex-direction:column;height:52vh;margin:0;padding:.5rem;max-height:340px;overflow-y:auto;overflow-x:hidden;}.qa-badge-list-item{list-style:none;margin:0;padding:.6rem 0;}.qa-badge-list-item .flex{align-items:center;flex-shrink:0;}.qa-badge-source-info{flex-grow:1;}.bsh-title{font-weight:500;}.qa-badge-source-title-description{display:block;font-size:small;font-weight:normal;}.qa-badge-close-btn{display:inline-block;background-color:rgb(0 0 0 / 10%);width:30px;height:30px;line-height:30px;font-size:1rem;font-weight:bold;text-align:center;margin-inline-start:1rem;cursor:pointer;border:none;border-radius:3px;transition:background-color .2s;}.qa-badge-close-btn:hover{background-color:rgb(0 0 0 / 15%);}.qa-badge-close-btn svg{vertical-align:middle;}.qa-badge-list-item .qa-badge-awarded-avatar,.qa-badge-name-container{display:inline-flex;}.qbli-link{max-width:max-content;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:inherit!important;font-weight:600;}.qbli-avatar{width:44px;height:44px;position:relative;overflow:hidden;border-radius:50%;}.qbli-avatar img{position:absolute;top:50%;left:50%;transform:translateX(-50%) translateY(-50%);width:100%;height:auto;}.wide-image{height:100%!important;width:auto!important;max-width:initial;}.qbli-container{flex:1 1 50%;min-width:0;padding:0 .8rem;overflow:hidden;align-items:flex-end!important;justify-content:start;display:grid;}.qbli-more{padding-inline-end:.4rem;}.qbli-button{background-color:#e7eaee;color:#000!important;height:32px;line-height:32px;padding:0 .8rem;font-size:.813rem;font-weight:500;text-overflow:ellipsis;border-radius:8px;background-color:rgb(0 0 0 / 10%);transition:background-color .2s;}.qbli-button:hover{background-color:rgb(0 0 0 / 15%);}.qa-badge-loading-spinner{position:relative;display:none;}.qa-badge-show-source .qa-badge-loading-spinner{display:block;}.qa-badge-spinner{position:absolute;left:50%;transform:translateX(-50%);bottom:-1rem;opacity:0;pointer-events:none;transition:opacity .25s;}.active .qa-badge-spinner{opacity:.8;pointer-events:auto;}.bubble-loader{display:flex;justify-content:center;align-items:center;padding:10px 0;}.bubble-loader .dot{fill:#999;animation:bubbleUp 1.4s infinite ease-in-out;}.bubble-loader .dot:nth-child(1){animation-delay:0s;}.bubble-loader .dot:nth-child(2){animation-delay:0.2s;}.bubble-loader .dot:nth-child(3){animation-delay:0.4s;}@keyframes bubbleUp{0%,80%,100%{transform:translateY(0);opacity:0.5;}40%{transform:translateY(-8px);opacity:1;}}.badges-svg{display:inline-flex;width:18px;height:18px;position:relative;vertical-align:middle;pointer-events:none;}.svg-box-container{width:inherit;display:inline-flex;vertical-align:middle;align-items:center;justify-content:center;}.svg-box-content{position:absolute;top:0;left:0;width:100%;height:100%;fill:inherit;}.close-qa-badge-source-wrapper{text-align:end;padding-top:8px;}.qa-badge-close-source{position:fixed;top:0;left:0;right:0;bottom:0;}.qa-part-form-badges-list{width:100%;overflow:hidden;}.qa-badge-source{white-space:nowrap;overflow:hidden;display:flex;align-items:center;flex-shrink:0;font-size:.875rem;}.qa-badge-source:not(:last-child){border-bottom:1px solid #e0e0e0;}.qa-badge-source:before{content:"\25B6";margin:3px 0;margin-inline-end:6px;}.qa-badge-source a{overflow:hidden;text-overflow:ellipsis;}.qa-badges-widget h2 .badges-svg{vertical-align:text-top;margin-right:0.5rem;max-width:18px;max-height:18px;overflow:hidden;}.qa-badges-widget h2 .badges-svg path{fill:#FFCC01;}.qa-badges-widget h2 .badges-svg svg{max-width:18px;max-height:18px;overflow:hidden;}.qa-badge-widget-entry{font-size:14px;margin-bottom:6px;}.qa-badge-medals-widget{white-space:nowrap;display:inline-block;}.qa-badge-awarded{background-color:rgb(0 0 0 / 10%);padding:1rem;margin:0.8rem 0;border-radius:14px;}.qa-badge-awarded-header{margin-bottom:0.5rem;}.qa-badge-awarded-avatar{display:inline-block;width:35px;height:35px;overflow:hidden;}.qa-badge-awarded-avatar img{width:35px;height:35px;border-radius:30px;}.qa-badge-awarded-info{display:inline-grid;vertical-align:top;padding:0 0.8rem;}.qa-badges-widget a.wibawho-wrapper,.qa-badges-widget .wibawhat{display:block;line-height:normal;}.qa-badges-widget a.wibawho-wrapper{margin-bottom:2px;}.qa-badges-widget a.wibawho{color:inherit;font-weight:bold;text-transform:capitalize;}.wibawhat{font-size:.75rem;line-height:.75rem;}.qa-badge-awarded-footer{display:flex;flex-direction:row;background-color:rgb(0 0 0 / 10%);padding:4px 5px;border-radius:6px;}.qa-badge-awarded-footer .wibawhat-time{display:flex;justify-content:flex-start;align-items:center;flex-wrap:nowrap;padding:0 0.5rem;width:50%;width:111px;height:28px;}.wibawhat-timestamp{word-break:keep-all;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.qa-badge-awarded-footer .wibabadge{display:flex;justify-content:flex-end;align-items:center;flex-wrap:nowrap;flex-grow:1;margin-bottom:0;width:50%;width:111px;height:28px;}.wibabadge a{display:grid;line-height:initial;}.wibabadge span{overflow:hidden;text-overflow:ellipsis;margin-bottom:0;pointer-events:none;}@media (max-width:630px){.qa-badge-user-table{width:100%;display:block;font-size:13px;padding:0;margin-top:5px;}.qa-badge-title{font-weight:400;background-color:#f5f5f5;}.qa-badge-entry-row-title td:nth-child(3),.qa-badge-entry td:nth-child(3){vertical-align:top;margin-top:-1rem;}.qa-badge-count-link,.qa-badge-count{font-size:1rem;padding:1rem!important;margin-inline-end:-1rem;}.qa-part-custom2{padding:10px;}.qa-badge-entry td:first-of-type{width:45%;}.qa-badge-entry-desc{font-size:13px;padding:6px 0;display:inline-block;}.qbli-container{flex:1 1 35%;}.qbli-button{height:28px;line-height:28px;padding:0 .6rem;font-size:.675rem;}.notify-container{width:auto;max-width:100%;left:8px;right:8px;bottom:8px;}.qa-badge-notify-text{padding:.8rem 0 .8rem .8rem;}.qa-badge-check-profile{display:block;margin-top:.5rem;}.qa-badge-notify-interact .notify-link{display:none;}}
+.clear {
+    clear: both;
+}
+
+.flex {
+    display: flex;
+}
+.flex-column {
+    flex-direction: column;
+}
+.flex-row {
+    flex-direction: row;
+}
+
+.noScroll, .no-scroll {
+    overflow: hidden;
+}
+
+.qa-badge, .qa-badge-bronze, .qa-badge-silver, .qa-badge-gold {
+    display: inline-block;
+    background-color: #424242;
+    color: #fff;
+    font-size: 13px;
+    line-height: 24px;
+    font-weight: 400;
+    text-align: left;
+    white-space: nowrap;
+    padding: 2px 10px 2px 7px;
+    margin-bottom: 5px;
+    border: 0;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                0 1px 5px 0 rgba(0, 0, 0, 0.12),
+                0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.qa-badge-notify .qa-badge {
+    margin-bottom: 0;
+}
+.qa-badge-bronze:before, .qa-badge-silver:before, .qa-badge-gold:before, .qa-badge:before {
+    content: "";
+    height: 8px;
+    width: 8px;
+    display: inline-block;
+    margin-right: 5px;
+    border-radius: 50%;
+    /* vertical-align: middle; */
+}
+
+.qa-badge-bronze:before {
+    background-color: #b3934e;
+}
+.qa-badge-silver:before {
+    background-color: #ababab;
+}
+.qa-badge-gold:before {
+    background-color: #FFCC01;
+}
+.qa-badge:before {
+    background-color: #3ea6ff;
+}
+
+/* single dot */
+.qa-badge-bronze-count:before, .qa-badge-silver-count:before, .qa-badge-gold-count:before {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background-color: #000;
+    border-radius: 10px;
+    margin: 1px;
+}
+.qa-badge-bronze-count:before {
+    background-color: #b3934e;
+}
+.qa-badge-silver-count:before {
+    background-color: #ababab;
+}
+.qa-badge-gold-count:before {
+    background-color: #FFCC01;
+}
+
+.qa-badge-bronze br, .qa-badge-silver br, .qa-badge-gold br {
+    content: "";
+    display: inline-block;
+    height: 0;
+    width: 5px;
+}
+
+.qa-badge-count {
+    color: #9E9E9E;
+    padding: 5px 6px;
+}
+.qa-badge-count-link {
+    cursor: pointer;
+    color: #039BE5;
+}
+
+/* Badge Notifier */
+.notify-container {
+    position: fixed;
+    top: initial; /* fix for older versions / plugin setting top attributes */
+    left: 25px;
+    bottom: 25px;
+    max-width: 90%;
+    z-index: 99999999;
+}
+.qa-badge-notify {
+    display: flex;
+    text-align: left;
+    background-color: #0f0f0f;
+    font-family: inherit;
+	font-size: 14px;
+    font-weight: 400;
+    color: #fff;
+    box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14),
+                0 3px 14px 2px rgba(0,0,0,0.12),
+                0 5px 5px -3px rgba(0,0,0,0.2);
+	border-radius: 8px;
+}
+.qa-badge-notify a {
+    color: #90CAF9;
+}
+
+.qa-badge-notify-text {
+    padding: .8rem 0rem .8rem 1.5rem;
+}
+
+.qa-badge-check-profile {
+    display: none;
+}
+
+.qa-badge-notify-interact {
+	margin-inline-start: .5rem;
+	display: flex;
+}
+
+.notify-link {
+    font-weight: 500;
+}
+
+.qa-badge-notify-button {
+    min-width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+	padding: 0 .5rem;
+	cursor: pointer;
+}
+
+.qa-badge-notify-button:hover {
+    background-color: rgb(255 255 255 / 10%);
+}
+
+.qa-badge-user-tables {
+    width: 100%;
+}
+.qa-badge-user-table {
+    vertical-align: top;
+    padding: 0 5px;
+    width: 33.3%;
+}
+.qa-badge-user-table table {
+    width: 100%;
+}
+.qa-badge-user-table .qa-form-wide-label {
+    padding: 0;
+}
+
+
+.qa-badge-bronze-medal, .qa-badge-silver-medal, .qa-badge-gold-medal {
+    font-size: 20px;
+}
+
+.qa-badge-entry-row-title {
+    font-weight: 500;
+}
+.qa-badge-entry-row-title td {
+    padding: 0.5rem 0;
+}
+
+.qa-badge-entry, .qa-badge-entry-row {
+    width: 100%;
+}
+
+.qa-badge-entry td:first-of-type {
+    width: 25%;
+    padding: 0;
+}
+.qa-badge-entry-row-title td:nth-child(2),
+.qa-badge-entry td:nth-child(2) {
+    width: 60%;
+}
+.qa-badge-entry-row-title td:nth-child(3),
+.qa-badge-entry td:nth-child(3) {
+    width: 15%;
+    text-align: right;
+}
+
+
+.qa-part-custom2 {
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+
+.badgeGroup {
+    padding: .6rem 0;
+    border-top: 1px solid #E0E0E0;
+    max-width: 100%;
+}
+@media (min-width: 630px){
+    .badgeGroup {
+        padding:0.6rem 1rem;
+    }
+}
+
+.qa-badge-divider {
+    width: 100%;
+    height: 1px;
+    background-color: #E0E0E0;
+    margin: 0.6rem 0;
+}
+
+.qa-badge-entry-desc {
+    font-size: 14px;
+    line-height: normal;
+}
+
+.qa-badge-container-sources {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    display: none;
+    text-align: initial;
+}
+.qa-badge-show-source {
+    display: block !important;
+}
+.qa-badge-source-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    transform-origin: 0 0;
+    transform: scale(0) translateX(-50%) translateY(-50%);
+    transition: opacity 0.3s cubic-bezier(0.175,0.885,.22,1.125),transform 0.3s cubic-bezier(0.175,0.885,.22,1.145);
+    backface-visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    background-color: #fff;
+    padding: 1rem;
+    /* box-shadow: 0 2px 3px 0 rgb(60 64 67 / 30%), 0 6px 10px 4px rgb(60 64 67 / 15%); */
+    box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.4);
+    border-radius: 6px;
+    width: 85%;
+    max-width: 375px;
+}
+.qa-badge-show-source .qa-badge-source-container {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1) translateX(-50%) translateY(-50%);
+    backface-visibility: hidden;
+}
+.qa-badge-source-header {
+    padding-bottom: .5rem;
+    box-shadow: 0px 5px 5px -4px rgb(0 0 0 / 10%);
+}
+.qa-badge-sources-wrapper {
+    /* display: flex; */
+    flex-direction: column;
+    height: 52vh;
+    margin: 0;
+    padding: .5rem;
+    max-height: 340px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.qa-badge-list-item {
+    list-style: none;
+    margin: 0;
+    padding: .6rem 0;
+}
+/*
+.qa-badge-list-item a:before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJzdmctYm94LWNvbnRlbnQiIGhlaWdodD0iNDgiIHdpZHRoPSI0OCIgdmlld0JveD0iMCAwIDUwIDUwIj48cGF0aCBkPSJNMTEuMSAzNS4yNXEzLjE1LTIuMiA2LjI1LTMuMzc1UTIwLjQ1IDMwLjcgMjQgMzAuN3EzLjU1IDAgNi42NzUgMS4xNzV0Ni4yNzUgMy4zNzVxMi4yLTIuNyAzLjEyNS01LjQ1UTQxIDI3LjA1IDQxIDI0cTAtNy4yNS00Ljg3NS0xMi4xMjVUMjQgN3EtNy4yNSAwLTEyLjEyNSA0Ljg3NVQ3IDI0cTAgMy4wNS45NSA1Ljh0My4xNSA1LjQ1Wk0yNCAyNS41cS0yLjkgMC00Ljg3NS0xLjk3NVQxNy4xNSAxOC42NXEwLTIuOSAxLjk3NS00Ljg3NVQyNCAxMS44cTIuOSAwIDQuODc1IDEuOTc1dDEuOTc1IDQuODc1cTAgMi45LTEuOTc1IDQuODc1VDI0IDI1LjVaTTI0IDQ0cS00LjEgMC03Ljc1LTEuNTc1LTMuNjUtMS41NzUtNi4zNzUtNC4zLTIuNzI1LTIuNzI1LTQuMy02LjM3NVE0IDI4LjEgNCAyNHEwLTQuMTUgMS41NzUtNy43NzV0NC4zLTYuMzVxMi43MjUtMi43MjUgNi4zNzUtNC4zUTE5LjkgNCAyNCA0cTQuMTUgMCA3Ljc3NSAxLjU3NXQ2LjM1IDQuM3EyLjcyNSAyLjcyNSA0LjMgNi4zNVE0NCAxOS44NSA0NCAyNHEwIDQuMS0xLjU3NSA3Ljc1LTEuNTc1IDMuNjUtNC4zIDYuMzc1LTIuNzI1IDIuNzI1LTYuMzUgNC4zUTI4LjE1IDQ0IDI0IDQ0Wm0wLTNxMi43NSAwIDUuMzc1LS44dDUuMTc1LTIuOHEtMi41NS0xLjgtNS4yLTIuNzUtMi42NS0uOTUtNS4zNS0uOTUtMi43IDAtNS4zNS45NS0yLjY1Ljk1LTUuMiAyLjc1IDIuNTUgMiA1LjE3NSAyLjhRMjEuMjUgNDEgMjQgNDFabTAtMTguNXExLjcgMCAyLjc3NS0xLjA3NXQxLjA3NS0yLjc3NXEwLTEuNy0xLjA3NS0yLjc3NVQyNCAxNC44cS0xLjcgMC0yLjc3NSAxLjA3NVQyMC4xNSAxOC42NXEwIDEuNyAxLjA3NSAyLjc3NVQyNCAyMi41Wm0wLTMuODVabTAgMTguN1oiPjwvcGF0aD48L3N2Zz4=");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    vertical-align: middle;
+    margin-inline-end: 4px;
+}
+*/
+
+.qa-badge-list-item .flex {
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.qa-badge-source-info {
+    flex-grow: 1;
+}
+
+.bsh-title {
+    font-weight: 500;
+}
+
+.qa-badge-source-title-description {
+    display: block;
+    font-size: small;
+    font-weight: normal;
+}
+
+.qa-badge-close-btn {
+    display: inline-block;
+    background-color: rgb(0 0 0 / 10%);
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    margin-inline-start: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    transition: background-color .2s;
+}
+.qa-badge-close-btn:hover {
+    background-color: rgb(0 0 0 / 15%);
+}
+
+.qa-badge-close-btn svg {
+    vertical-align: middle;
+}
+
+.qa-badge-list-item .qa-badge-awarded-avatar, .qa-badge-name-container {
+    display: inline-flex;
+}
+
+.qa-badge-error-message.error {
+	color: #b42318;
+}
+
+.qa-badge-error-message.success {
+	color: #067647;
+}
+
+.qbli-link {
+    max-width: max-content;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: inherit !important;
+    font-weight: 600;
+}
+
+.qbli-avatar {
+    width: 44px;
+    height: 44px;
+    position: relative;
+    overflow: hidden;
+    /* border-radius: 30%; */
+    border-radius: 50%;
+}
+
+.qbli-avatar img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 100%;
+    height: auto;
+}
+
+.wide-image {
+    height: 100% !important;
+    width: auto !important;
+    max-width: initial;
+}
+
+.qbli-container {
+    flex: 1 1 50%;
+    min-width: 0;
+    padding: 0 .8rem;
+    overflow: hidden;
+    align-items: flex-end !important;
+    justify-content: start;
+    display: grid;
+}
+
+.qbli-more {
+    padding-inline-end: .4rem;
+}
+
+.qbli-button {
+    background-color: #e7eaee;
+    color: #000 !important;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 .8rem;
+    font-size: .813rem;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    border-radius: 8px;
+    background-color: rgb(0 0 0 / 10%);
+    transition: background-color .2s;
+}
+
+.qbli-button:hover {
+    background-color: rgb(0 0 0 / 15%);
+}
+
+/* Better Performance 
+Don't force repaint for all 63 of badges available (if they were all open at the same time)
+*/
+.qa-badge-loading-spinner {
+    position: relative;
+    display: none;
+}
+
+/* Only animate the current open Popup */
+.qa-badge-show-source .qa-badge-loading-spinner {
+    display: block;
+}
+
+.qa-badge-spinner {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s;
+}
+
+.active .qa-badge-spinner {
+    opacity: .8;
+    pointer-events: auto;
+}
+
+.bubble-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.bubble-loader .dot {
+    fill: #999; /* Grey dot */
+    animation: bubbleUp 1.4s infinite ease-in-out;
+}
+
+.bubble-loader .dot:nth-child(1) {
+    animation-delay: 0s;
+}
+.bubble-loader .dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.bubble-loader .dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bubbleUp {
+    0%, 80%, 100% {
+        transform: translateY(0);
+        opacity: 0.5;
+    }
+    40% {
+        transform: translateY(-8px);
+        opacity: 1;
+    }
+}
+
+/*
+.qa-badge-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #ccc;
+    border-top-color: #333;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+*/
+
+.badges-svg {
+    display: inline-flex;
+    width: 18px;
+    height: 18px;
+    position: relative;
+    vertical-align: middle;
+    pointer-events: none;
+}
+.svg-box-container {
+    width: inherit;
+    display: inline-flex;
+    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+}
+.svg-box-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    fill: inherit;
+}
+.close-qa-badge-source-wrapper {
+    text-align: end;
+    padding-top: 8px;
+}
+
+.qa-badge-close-source {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+
+.qa-part-form-badges-list {
+    width: 100%;
+    overflow: hidden;
+}
+.qa-badge-source {
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    font-size: .875rem;
+}
+.qa-badge-source:not(:last-child) {
+    border-bottom: 1px solid #e0e0e0;
+}
+.qa-badge-source:before {
+    content: "\25B6"; /* play button ► */
+    margin: 3px 0;
+    margin-inline-end: 6px;
+}
+
+.qa-badge-source a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* Widget */
+.qa-badges-widget h2 .badges-svg {
+    vertical-align: text-top;
+    margin-right: 0.5rem;
+    max-width: 18px;
+    max-height: 18px;
+    overflow: hidden;
+}
+.qa-badges-widget h2 .badges-svg path {
+    fill: #FFCC01;
+}
+.qa-badges-widget h2 .badges-svg svg {
+    max-width: 18px;
+    max-height: 18px;
+    overflow: hidden;
+}
+
+.qa-badge-widget-entry {
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+.qa-badge-medals-widget {
+    white-space: nowrap;
+    display: inline-block;
+}
+
+
+
+.qa-badge-awarded {
+    background-color: rgb(0 0 0 / 10%);
+    padding: 1rem;
+    margin: 0.8rem 0;
+    border-radius: 14px;
+}
+.qa-badge-awarded-header {
+    margin-bottom: 0.5rem;
+}
+.qa-badge-awarded-avatar {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    overflow: hidden;
+}
+.qa-badge-awarded-avatar img {
+    width: 35px;
+    height: 35px;
+    border-radius: 30px;
+}
+.qa-badge-awarded-info {
+    display: inline-grid;
+    vertical-align: top;
+    padding: 0 0.8rem;
+}
+.qa-badges-widget a.wibawho-wrapper, .qa-badges-widget .wibawhat {
+    display: block;
+    line-height: normal;
+}
+.qa-badges-widget a.wibawho-wrapper {
+    margin-bottom: 2px;
+}
+.qa-badges-widget a.wibawho {
+    color: inherit;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+.wibawhat {
+    font-size: .75rem;
+    line-height: .75rem;
+}
+
+.qa-badge-awarded-footer {
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(0 0 0 / 10%);
+    padding: 4px 5px;
+    border-radius: 6px;
+}
+.qa-badge-awarded-footer .wibawhat-time {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 0 0.5rem;
+    width: 50%;
+    width: 111px;
+    height: 28px;
+}
+.wibawhat-timestamp {
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.qa-badge-awarded-footer .wibabadge {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-grow: 1;
+    margin-bottom: 0;
+    width: 50%;
+    width: 111px;
+    height: 28px;
+}
+.wibabadge a {
+    display: grid;
+    line-height: initial;
+}
+.wibabadge span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+    pointer-events: none;
+}
+
+
+
+
+@media (max-width: 630px){
+    .qa-badge-user-table {
+        width: 100%;
+        display: block;
+        font-size: 13px;
+        padding: 0;
+        margin-top: 5px;
+    }
+    .qa-badge-title {
+        font-weight: 400;
+        background-color: #f5f5f5;
+    }
+    
+    .qa-badge-entry-row-title td:nth-child(3), .qa-badge-entry td:nth-child(3) {
+        vertical-align: top;
+        margin-top: -1rem;
+    }
+    .qa-badge-count-link, .qa-badge-count {
+        font-size: 1rem;
+        padding: 1rem !important;
+        margin-inline-end: -1rem;
+    }
+    
+    /* Badges Page */
+    .qa-part-custom2 {
+        padding: 10px;
+    }
+    .qa-badge-entry td:first-of-type {
+        width: 45%;
+    }
+    .qa-badge-entry-desc {
+        font-size: 13px;
+        padding: 6px 0;
+        display: inline-block;
+    }
+    
+    .qbli-container {
+        flex: 1 1 35%;
+    }
+    
+    .qbli-button {
+        height: 28px;
+        line-height: 28px;
+        padding: 0 .6rem;
+        font-size: .675rem;
+    }
+
+    .notify-container {
+        width: auto;
+        max-width: 100%;
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+    }
+    
+	 .qa-badge-notify-text {
+        padding: .8rem 0 .8rem .8rem;
+    }
+	.qa-badge-check-profile {
+		display: block;
+		margin-top: .5rem;
+	}
+	.qa-badge-notify-interact .notify-link {
+		display: none;
+	}
+    
+}

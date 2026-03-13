@@ -4,6 +4,19 @@
 
 # Q2A Badges Changelog
 
+## [5.2.41] - 2026-03-13
+
+Badge Fetching Failsafe: Offline/Online Handling
+
+- Refactored badge fetching and error handling for a smoother UX.
+- Added failsafe for offline scenarios.
+- Badge error messages now update to success when the connection is restored.
+- Previously failed badge loads while offline are retried automatically upon reconnection.
+- Skips offline checks on localhost/127.0.0.1 to improve local development.
+- Added function comments for online/offline handling and badge loading.
+
+---
+
 ## [5.2.40] - 2025-11-06
 
  - Added `safe_qa_post_get_full()` to avoid fatal errors when `qa_post_get_full()` can’t find a post.

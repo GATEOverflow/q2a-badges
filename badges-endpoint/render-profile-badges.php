@@ -149,7 +149,7 @@ foreach ($result as $row) {
         $showHref = '<span ' . $titleAttr . '>' . $safeTitle . '</span>';
     }
 
-    echo '<div class="qa-badge-source">' . $showHref . '</div>';
+    echo '<li class="qa-badge-source">' . $showHref . '</li>';
 
     $valid++;
     $isHiddenPost = false;

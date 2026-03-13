@@ -357,6 +357,14 @@
     display: inline-flex;
 }
 
+.qa-badge-error-message.error {
+	color: #b42318;
+}
+
+.qa-badge-error-message.success {
+	color: #067647;
+}
+
 .qbli-link {
     max-width: max-content;
     white-space: nowrap;
