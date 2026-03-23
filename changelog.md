@@ -4,6 +4,19 @@
 
 # Q2A Badges Changelog
 
+## [5.2.42] - 2026-03-22
+
+Badge State Refactor: Caching & Documentation Improvements
+
+- Refactored `badgeState` into a singleton/centralized state manager for better encapsulation and caching.
+- Added detailed JSDoc-style documentation to all relevant functions.
+- Preserves previously fetched badge content for faster subsequent access without unnecessary network requests.
+- Improved inline comments and code readability for maintainability.
+- Optional debug helper for inspecting cached badge state is commented out below the `badgeState` function.
+- Maintains offline/online handling and lazy-loading behavior, from previous update.
+
+---
+
 ## [5.2.41] - 2026-03-13
 
 Badge Fetching Failsafe: Offline/Online Handling

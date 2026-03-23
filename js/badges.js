@@ -3,6 +3,67 @@
 document.addEventListener('DOMContentLoaded', () => {
 	
 	/**
+	 * Badge State Manager (lightweight singleton/centralized cache layer)
+	 *
+	 * Stores and restores badge popup list state per badgeSlug.
+	 * This avoids unnecessary refetching and preserves:
+	 * - Rendered HTML (list items)
+	 * - Pagination offset
+	 * - Completion state (done flag)
+	 *
+	 * Behaves like a small in-memory state store scoped to this module.
+	 */
+	const badgeState = (() => {
+		const cache = new Map();
+
+		return {
+			// Get cached state for a badge
+			get(slug) {
+				return cache.get(slug) || null;
+			},
+
+			// Save current list state
+			set(slug, container) {
+				cache.set(slug, {
+					html: container.innerHTML,
+					offset: container.dataset.offset ?? '0',
+					done: container.dataset.done ?? 'false'
+				});
+			},
+			
+			// Apply cached state to a container
+			// @returns {boolean} true if applied
+			apply(slug, container) {
+				const state = cache.get(slug);
+				if (!state) return false;
+
+				container.innerHTML = state.html;
+				container.dataset.offset = state.offset;
+				container.dataset.done = state.done;
+
+				return true;
+			},
+			
+			// Check if state exists
+			has(slug) {
+				return cache.has(slug);
+			},
+			
+			// Clear cached state for a badge
+			clear(slug) {
+				cache.delete(slug);
+			}
+		};
+	})();
+	
+	/* =========================
+		Debug helper (optional)
+		Expose badge state in DevTools:
+		window.badgeStateDebug.get('popular_question')
+	========================= */
+	// window.badgeStateDebug = badgeState;
+	
+	/**
 	 * UI helper: Handle clicks on any .qa-badge-count-link
 	 * If Admin option is to not show sources, this class is not rendered in DOM
 	 */
@@ -17,15 +78,17 @@ document.addEventListener('DOMContentLoaded', () => {
 				fetchUrlBase: e.target.dataset.fetchUrl,
 				userId: e.target.dataset.userid || 0,
 			};
-
+			
 			loadBadgeSourceUsers(options);
+			
+			// Trigger theme-specific lazy loading update if available
+			// Polaris theme includes a `lazyLoadInstance` globally for images.
+			// This ensures newly added badge avatars are picked up without breaking other themes.
+			lazyLoadInstance?.update?.();
+			
 			document.body.classList.add('no-scroll');
 		}
 	});
-	
-	// Create a hashmap to store fully retrieved content
-	// so it displays a temporary cached version on the second click
-	const badgeUserContentCache = new Map();
 	
 	/**
 	 * Loads and displays the badge source users popup for a given badge.
@@ -86,25 +149,26 @@ document.addEventListener('DOMContentLoaded', () => {
 			container.className = 'qa-badge-container-sources';
 			
 			// If already cached, use it instead of rebuilding
-			if (badgeUserContentCache.has(badgeSlug)) {
+			if (badgeState.has(badgeSlug)) {
 
 				container.innerHTML = htmlContent;
+				
 				// Restore from cache
 				const list = container.querySelector('.qa-badge-sources-wrapper');
-				list.innerHTML = badgeUserContentCache.get(badgeSlug);
 
-				badgeLink.parentElement.appendChild(container);
-				
-				// Reattach scroll listener and continue lazy load
-				loadOnScroll(container, badgeSlug);
-				
-				// Spinner cleanup
-				showLoadingSpinner(false);
+				if (badgeState.apply(badgeSlug, list)) {
+					badgeLink.parentElement.appendChild(container);
 
-				container.dataset.loaded = 'true';
-				container.classList.add('qa-badge-show-source');
+					// Reattach scroll listener and continue lazy load
+					loadOnScroll(container, badgeSlug);
+					// Spinner cleanup
+					showLoadingSpinner(false);
 
-				return;
+					container.dataset.loaded = 'true';
+					container.classList.add('qa-badge-show-source');
+
+					return;
+				}
 			}
 			
 			badgeLink.parentElement.appendChild(container);
@@ -157,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		// Skips execution on localhost/127.0.0.1 to avoid misleading
 		// "you're back online" messages during local development.
 		if (!navigator.onLine && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-			container.innerHTML = '';
+			// container.innerHTML = '';
 			container.dataset.loading = 'false';
 			showUserErrorMessage(
 				container,
@@ -169,6 +233,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		if (container.dataset.loading === 'true' || container.dataset.done === 'true') return;
 
+		// Show spinner for every fetch attempt
+		showLoadingSpinner(true);
+		
 		container.dataset.loading = 'true';
 
 		const offset = parseInt(container.dataset.offset || '0', 10);
@@ -191,73 +258,70 @@ document.addEventListener('DOMContentLoaded', () => {
 		const fetchUrl = `${fetchFrom}?slug=${encodeURIComponent(badgeSlug)}&userid=${userId}&offset=${offset}&limit=${limit}`;
 		// console.log(fetchUrl); // Uncomment for debug
 		
-		if (!badgeUserContentCache.has(badgeSlug))
-			showLoadingSpinner(true);
-
 		fetch(fetchUrl, {
 			headers: {
 				'X-Requested-With': 'Fetch'
 			}
 		})
-			.then(res => {
-				if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-				return res.text();
-			})
-			.then(html => {
-				if (html.trim()) {
-					container.insertAdjacentHTML('beforeend', html);
-					container.dataset.offset = offset + limit;
-				} else {
-					container.dataset.done = 'true';
+		.then(res => {
+			if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+			return res.text();
+		})
+		.then(html => {
+			if (html.trim()) {
+				container.insertAdjacentHTML('beforeend', html);
+				container.dataset.offset = offset + limit;
+			} else {
+				container.dataset.done = 'true';
+			}
 
-					// Cache the *fully loaded* badge content
-					const wrapper = container.closest('.qa-badge-container-sources');
-					if (wrapper) {
-						badgeUserContentCache.set(badgeSlug, container.innerHTML);
+			// Cache the *fully loaded* badge content
+			const wrapper = container.closest('.qa-badge-container-sources');
+			if (wrapper) {
+				badgeState.set(badgeSlug, container);
+				wrapper.dataset.loaded = 'true';
+			}
+		})
+		.catch(err => {
+			console.error('Failed to load more badge users:', err);
+			showUserErrorMessage(container, 'Failed to load badge users. Please try again.');
+		})
+		.finally(() => {
+			const error = container.querySelector('.qa-badge-error-message');
+			if (error) {
+				error.remove();
+			}
+
+			container.dataset.loading = 'false';
+
+			// After content is loaded, check if scrollable and cache if not
+			// Othewise it will keep calling short lists
+			setTimeout(() => {
+				const wrapper = container.closest('.qa-badge-container-sources');
+				if (wrapper) {
+					const scrollContainer = wrapper.querySelector('.qa-badge-sources-wrapper');
+					
+					// Ensure scrollContainer exists and check if it's scrollable
+					if (scrollContainer && isNotScrollable(scrollContainer)) {
+						// Cache the content as it's fully loaded
 						wrapper.dataset.loaded = 'true';
+						badgeState.set(badgeSlug, container);
+						// console.log('NOT scrollable');
+						// console.log('cached');
 					}
 				}
-			})
-			.catch(err => {
-				console.error('Failed to load more badge users:', err);
-				showUserErrorMessage(container, 'Failed to load badge users. Please try again.');
-			})
-			.finally(() => {
-				const error = container.querySelector('.qa-badge-error-message');
-				if (error) {
-					error.remove();
-				}
+			}, 260); // wait for the popup animations to finish, to get the full exapanded size (animation is .25s)
+			
+			setTimeout(() => {
+				showLoadingSpinner(false);
+			}, 500);
 
-				container.dataset.loading = 'false';
+			if (typeof window.lazyLoadInstance !== 'undefined' && typeof window.lazyLoadInstance.update === 'function') {
+				window.lazyLoadInstance.update();
+			}
 
-				// After content is loaded, check if scrollable and cache if not
-				// Othewise it will keep calling short lists
-				setTimeout(() => {
-					const wrapper = container.closest('.qa-badge-container-sources');
-					if (wrapper) {
-						const scrollContainer = wrapper.querySelector('.qa-badge-sources-wrapper');
-						
-						// Ensure scrollContainer exists and check if it's scrollable
-						if (scrollContainer && isNotScrollable(scrollContainer)) {
-							// Cache the content as it's fully loaded
-							wrapper.dataset.loaded = 'true';
-							badgeUserContentCache.set(badgeSlug, container.innerHTML);
-							// console.log('NOT scrollable');
-							// console.log('cached');
-						}
-					}
-				}, 260); // wait for the popup animations to finish, to get the full exapanded size (animation is .25s)
-				
-				setTimeout(() => {
-					showLoadingSpinner(false);
-				}, 500);
-
-				if (typeof window.lazyLoadInstance !== 'undefined' && typeof window.lazyLoadInstance.update === 'function') {
-					window.lazyLoadInstance.update();
-				}
-
-				badgeAdaptAvatar();
-			});
+			badgeAdaptAvatar();
+		});
 	};
 	
 	// UI helper: show error message inside container
@@ -281,9 +345,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	// UI helper: Load more Badges, on scroll
 	const loadOnScroll = (container, badgeSlug) => {
 		const scrollContainer = container.querySelector('.qa-badge-sources-wrapper');
-		if (scrollContainer) {
+
+		if (scrollContainer && !scrollContainer.dataset.listenerAttached) {
+			scrollContainer.dataset.listenerAttached = 'true';
+
 			scrollContainer.addEventListener('scroll', () => {
-				if (scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight - 20) {
+				if (
+					scrollContainer.scrollTop + scrollContainer.clientHeight >=
+					scrollContainer.scrollHeight - 20
+				) {
 					loadMoreBadgeEntries(badgeSlug);
 				}
 			});
