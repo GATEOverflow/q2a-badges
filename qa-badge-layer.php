@@ -209,8 +209,10 @@ public $badge_notice;
 	function logged_in()
 	{
 		if (qa_opt('badge_active') && (bool)qa_opt('badge_admin_loggedin_widget') && @$this->content['loggedin']['data'] != null) {
-			$handle = preg_replace('/ *<[^>]+> */', '',$this->content['loggedin']['data']);
-			$this->content['loggedin']['data'] = $this->content['loggedin']['data'].' '.qa_badge_plugin_user_widget($handle);
+			$handle = qa_get_logged_in_handle();
+			if ($handle) {
+				$this->content['loggedin']['data'] = $this->content['loggedin']['data'].' '.qa_badge_plugin_user_widget($handle);
+			}
 		}
 		
 		qa_html_theme_base::logged_in();
