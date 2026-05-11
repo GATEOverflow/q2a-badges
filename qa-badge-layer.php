@@ -9,7 +9,6 @@ private $patchNumber = '?v=121';
 public $badge_notice;
 
 	function doctype() {
-			
 		qa_html_theme_base::doctype();
 		if (qa_opt('badge_active')) {
 			
@@ -145,7 +144,11 @@ public $badge_notice;
 		}
 		
 		if (qa_opt('badge_active') && $this->template != 'admin') {
-			$this->badge_notify();
+			try {
+				$this->badge_notify();
+			} catch (\Throwable $e) {
+				error_log('badge_notify error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+			}
 		}
 
 		// Added fix to remove empty <style> in <head>
@@ -208,14 +211,25 @@ public $badge_notice;
 
 	function logged_in()
 	{
-		if (qa_opt('badge_active') && (bool)qa_opt('badge_admin_loggedin_widget') && @$this->content['loggedin']['data'] != null) {
+		$widget = '';
+
+		if (qa_opt('badge_active') && (bool)qa_opt('badge_admin_loggedin_widget') && !empty($this->content['loggedin']['data'])) {
 			$handle = qa_get_logged_in_handle();
 			if ($handle) {
-				$this->content['loggedin']['data'] = $this->content['loggedin']['data'].' '.qa_badge_plugin_user_widget($handle);
+				$widget = qa_badge_plugin_user_widget($handle);
+
+				if ($widget && qa_opt('site_theme') !== 'Polaris') {
+					$this->content['loggedin']['data'] .= ' ' . $widget;
+					$widget = '';
+				}
 			}
 		}
-		
+
 		qa_html_theme_base::logged_in();
+
+		if ($widget) {
+			$this->output(' ' . $widget);
+		}
 	}
 	
 	function q_view_main($q_view) {
@@ -223,7 +237,11 @@ public $badge_notice;
 
 	// badge check on view update
 
-		if (qa_opt('badge_active') && isset($this->content['inc_views_postid'])) {
+		if (
+			qa_opt('badge_active') &&
+			isset($this->content['inc_views_postid']) &&
+			isset($q_view['raw']['userid'], $q_view['raw']['views'])
+		) {
 
 			$uid = $q_view['raw']['userid'];
 
@@ -268,7 +286,9 @@ public $badge_notice;
 	public function ranking_score($item, $class)
 	{
 		$this->ranking_cell($item['score'], $class . '-score');
-		$this->output(qa_badge_plugin_user_widget($item['raw']['handle']));
+		if (isset($item['raw']['handle'])) {
+			$this->output(qa_badge_plugin_user_widget($item['raw']['handle']));
+		}
 	}
 	
 	public function body_hidden()
