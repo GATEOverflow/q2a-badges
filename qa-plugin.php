@@ -386,13 +386,18 @@ if(!function_exists('qa_getHandleFromId')) {
 
 // layout
 	
-function qa_badge_plugin_user_widget($handle) {
-	if (!is_string($handle) || $handle === '') return '';
-	
-	$userids = qa_handles_to_userids(array($handle));
-	if (!isset($userids[$handle])) return '';
-	
-	$userid = $userids[$handle];
+function qa_badge_plugin_user_widget($user) {
+	$userid = null;
+
+	if (is_int($user) || ctype_digit((string)$user)) {
+		$userid = (int)$user;
+	} elseif (is_string($user) && $user !== '') {
+		$userids = qa_handles_to_userids(array($user));
+		if (isset($userids[$user])) {
+			$userid = (int)$userids[$user];
+		}
+	}
+
 	if (!$userid) return '';
 
 	// displays small badge widget, suitable for meta

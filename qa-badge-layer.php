@@ -199,11 +199,16 @@ public $badge_notice;
 
 	function post_meta_who($post, $class)
 	{
+		if (qa_opt('site_theme') === 'Polaris') {
+			qa_html_theme_base::post_meta_who($post, $class);
+			return;
+		}
+
 		if (empty($post['who']['level']) && @$post['who'] && @$post['who']['data'] && qa_opt('badge_active') && (bool)qa_opt('badge_admin_user_widget') && ($class != 'qa-q-item' || qa_opt('badge_admin_user_widget_q_item')) ) {
 			$post['who']['suffix'] = (@$post['who']['suffix']).' <span class="qa-badge-medals-widget">'.qa_lang_html('badges/badge_anonymous_user').'</span>'; // No data
 		} else if (@$post['who'] && @$post['who']['data'] && qa_opt('badge_active') && (bool)qa_opt('badge_admin_user_widget') && ($class != 'qa-q-item' || qa_opt('badge_admin_user_widget_q_item')) ) {
-			$handle = preg_replace('/ *<[^>]+> */', '',$post['who']['data']);
-			$post['who']['suffix'] = (@$post['who']['suffix']).' '.qa_badge_plugin_user_widget($handle);
+			$user = isset($post['raw']['userid']) ? (int)$post['raw']['userid'] : preg_replace('/ *<[^>]+> */', '',$post['who']['data']);
+			$post['who']['suffix'] = (@$post['who']['suffix']).' '.qa_badge_plugin_user_widget($user);
 		}
 		
 		qa_html_theme_base::post_meta_who($post, $class);
@@ -211,14 +216,19 @@ public $badge_notice;
 
 	function logged_in()
 	{
+		if (qa_opt('site_theme') === 'Polaris') {
+			qa_html_theme_base::logged_in();
+			return;
+		}
+
 		$widget = '';
 
 		if (qa_opt('badge_active') && (bool)qa_opt('badge_admin_loggedin_widget') && !empty($this->content['loggedin']['data'])) {
-			$handle = qa_get_logged_in_handle();
-			if ($handle) {
-				$widget = qa_badge_plugin_user_widget($handle);
+			$userid = qa_get_logged_in_userid();
+			if ($userid) {
+				$widget = qa_badge_plugin_user_widget((int)$userid);
 
-				if ($widget && qa_opt('site_theme') !== 'Polaris') {
+				if ($widget && (qa_opt('site_theme') !== 'Polaris')) {
 					$this->content['loggedin']['data'] .= ' ' . $widget;
 					$widget = '';
 				}
@@ -286,7 +296,9 @@ public $badge_notice;
 	public function ranking_score($item, $class)
 	{
 		$this->ranking_cell($item['score'], $class . '-score');
-		if (isset($item['raw']['handle'])) {
+		if (isset($item['raw']['userid'])) {
+			$this->output(qa_badge_plugin_user_widget((int)$item['raw']['userid']));
+		} elseif (isset($item['raw']['handle'])) {
 			$this->output(qa_badge_plugin_user_widget($item['raw']['handle']));
 		}
 	}
