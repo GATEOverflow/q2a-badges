@@ -402,7 +402,9 @@ function qa_badge_plugin_user_widget($handle) {
 	if(count($result) == 0) return;
 	
 	$badges = qa_get_badge_list();
+	$bcount = array();
 	foreach($result as $slug) {
+		if (!isset($badges[$slug])) continue;
 		$bcount[$badges[$slug]['type']] = isset($bcount[$badges[$slug]['type']])?$bcount[$badges[$slug]['type']]+1:1; 
 	}
 	$output='<span class="qa-badge-medals-widget">';
@@ -448,6 +450,7 @@ function qa_badge_plugin_user_form($userid) {
 		
 		foreach($result as $info) {
 			$slug = $info['slug'];
+			if (!isset($bin[$slug])) continue;
 			$type = $bin[$slug]['type'];
 			if(isset($badges[$type][$slug])) $badges[$type][$slug]['count']++;
 			else $badges[$type][$slug]['count'] = 1;
