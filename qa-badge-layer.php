@@ -296,6 +296,10 @@ public $badge_notice;
 	public function ranking_score($item, $class)
 	{
 		$this->ranking_cell($item['score'], $class . '-score');
+		if (qa_opt('site_theme') === 'Polaris') {
+			return;
+		}
+
 		if (isset($item['raw']['userid'])) {
 			$this->output(qa_badge_plugin_user_widget((int)$item['raw']['userid']));
 		} elseif (isset($item['raw']['handle'])) {
