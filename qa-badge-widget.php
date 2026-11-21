@@ -118,6 +118,11 @@ class qa_badge_widget {
 	 * @return mysqli_result|bool The result set from the database query, or false on failure.
 	 */
 	private function get_badges() {
+		// 0/unset would mean "no limit", which renders every award ever made
+		$listMax = (int)qa_opt('badge_widget_list_max');
+		if ($listMax <= 0) {
+			$listMax = 20;
+		}
 		return qa_db_query_sub(
 			'SELECT el.event, el.handle, el.params, el.userid, UNIX_TIMESTAMP(el.datetime) AS datetime
 			FROM ^eventlog el
@@ -125,8 +130,7 @@ class qa_badge_widget {
 			WHERE el.event=$
 			AND u.userid IS NOT NULL ' . 
 			(qa_opt('badge_widget_date_max') ? ' AND DATE_SUB(CURDATE(), INTERVAL ' . (int) qa_opt('badge_widget_date_max') . ' DAY) <= el.datetime' : '') . 
-			' ORDER BY el.datetime DESC' .
-			(qa_opt('badge_widget_list_max') ? ' LIMIT ' . (int) qa_opt('badge_widget_list_max') : ''),
+			' ORDER BY el.datetime DESC LIMIT ' . $listMax,
 			'badge_awarded'
 		);
 	}

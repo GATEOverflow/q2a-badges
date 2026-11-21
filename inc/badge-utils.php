@@ -26,9 +26,22 @@ if (!defined('QA_VERSION')) {
  *
  * @return array A nested array where each badge slug maps to user award counts and a total count.
  */
-function qa_get_badge_award_counts() {
+function qa_get_badge_award_counts($slug = null) {
+    // Per-user rows are only loaded for one badge; loading all awards exhausted memory on large sites
+    if ($slug === null) {
+        $rows = qa_db_read_all_assoc(
+            qa_db_query_sub('SELECT badge_slug, COUNT(*) AS n FROM ^userbadges GROUP BY badge_slug')
+        );
+        $count = [];
+        foreach ($rows as $r) {
+            if (qa_opt('badge_' . $r['badge_slug'] . '_enabled') == '0') continue;
+            $count[$r['badge_slug']]['count'] = (int)$r['n'];
+        }
+        return $count;
+    }
+
     $result = qa_db_read_all_assoc(
-        qa_db_query_sub('SELECT user_id, badge_slug FROM ^userbadges')
+        qa_db_query_sub('SELECT user_id, badge_slug FROM ^userbadges WHERE badge_slug = $', $slug)
     );
 
     $count = [];

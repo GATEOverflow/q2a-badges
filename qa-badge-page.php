@@ -40,6 +40,7 @@ class qa_badge_page {
 
 		// Set the page title
 		$qa_content['title'] = qa_lang_html('badges/badge_list_title');
+		$qa_content['description'] = 'All badges you can earn on GATE Overflow for asking, answering, voting and contributing, and how many users have earned each.';
 
 		// Get the list of all badges
 		$badges = qa_get_badge_list();

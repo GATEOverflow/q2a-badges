@@ -35,7 +35,7 @@ if (!$slug || !qa_opt('badge_' . $slug . '_enabled')) {
 // Get all badge award counts
 // -----------------------------------------------------------------------------
 
-$allCounts = qa_get_badge_award_counts();
+$allCounts = qa_get_badge_award_counts($slug);
 
 if (!isset($allCounts[$slug])) {
     echo '<div class="error">No users have earned this badge yet.</div>';
