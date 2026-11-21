@@ -321,6 +321,9 @@ public $badge_notice;
      * Ensure userbadges table exists
      */
     private function ensure_userbadges_table() {
+        if (qa_opt('badges_userbadges_table_ok')) {
+            return;
+        }
         qa_db_query_sub('
             CREATE TABLE IF NOT EXISTS ^userbadges (
                 id INT(11) NOT NULL AUTO_INCREMENT,
@@ -332,6 +335,7 @@ public $badge_notice;
                 PRIMARY KEY (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
         ');
+        qa_opt('badges_userbadges_table_ok', '1');
     }
 
     /**
